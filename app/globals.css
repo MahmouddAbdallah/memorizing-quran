@@ -1,33 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Kufam:ital,wght@0,400..900;1,400..900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+* {
+  font-family: "Kufam", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+.p-container{
+  @apply px-5 md:px-10 lg:px-20 xl:px-32
+}
+body{
+  @apply text-right bg-secondary scroll-smooth
+}
+.radio-style {
+  @apply w-6 h-6 bg-transparent border-2 border-primary p-1 rounded-full peer-checked:bg-primary transition duration-300 ease-in
+}
+
+
+/* menu css  */
+.hamburger input:checked + svg {
+  transform: rotate(-45deg);
+}
+.hamburger input:checked + svg .line-top-bottom {
+  stroke-dasharray: 20 300;
+  stroke-dashoffset: -32.42;
+}
+
+
+.rtl {
+  display: block;
+  animation: anim-rtl .50s ease-in-out;
+}
+@keyframes anim-rtl {
+  0%{
+      transform: translateX(-100%);
+      opacity: 0%;
+  }
+  100%{
+      transform: translateX(0%);
+      opacity:100%;
+  }
+}
+.ltr {
+  display: none;
+  animation: anim-ltr .50s ease-in-out;
+}
+@keyframes anim-ltr {
+  0%{
+      transform: translateX(0);
+      display: block;
+      opacity: 100%;
+  }
+  100%{
+      transform: translateX(-100%);
+      display: none;
+      opacity: 0%;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@media (min-width: 1024px) {
+  .ltr {
+    display: block;
+    animation: anim-lt .1s ease-in-out;
   }
 }
+
+input[type='date']::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+} 

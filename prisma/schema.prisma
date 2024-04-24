@@ -1,0 +1,125 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  email         String
+  date          String
+  phone         String
+  country       String
+  gender        String
+  password      String
+  role          String          @default("user")
+  active        Boolean         @default(false)
+  createAt      DateTime        @default(now())
+  updateAt      DateTime        @updatedAt()
+  Verification  Verification[]
+  Lesson        Lesson[]
+  SubsriblePlan SubsriblePlan[]
+  Balance       Balance[]
+}
+
+model Teacher {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String
+  date     String?
+  phone    String?
+  country  String?
+  gender   String?
+  password String
+  active   Boolean  @default(true)
+  role     Role     @default(teacher)
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt()
+  Lesson   Lesson[]
+}
+
+enum Role {
+  admin
+  teacher
+}
+
+model Verification {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  user     User     @relation(fields: [userId], references: [id])
+  userId   String   @db.ObjectId
+  code     String
+  wait     DateTime @default(now())
+  createAt DateTime @default(now())
+  updateAt DateTime @default(now())
+}
+
+model Plan {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  price         Int
+  duration      String          @default("نص ساعة")
+  student       String          @default("طالب")
+  children      String          @default("طفل")
+  session       String?         @default("حصه في الاسبوع")
+  createAt      DateTime        @default(now())
+  updateAt      DateTime        @default(now())
+  SubsriblePlan SubsriblePlan[]
+}
+
+model Tokens {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  code  String
+  price Int
+  // expired Boolean @default(false)
+}
+
+model Balance {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.ObjectId()
+  price  Int    @default(0)
+}
+
+model SubsriblePlan {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  pice   Plan   @relation(fields: [planId], references: [id])
+  planId String @db.ObjectId()
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.ObjectId()
+}
+
+model Lesson {
+  id         String       @id @default(auto()) @map("_id") @db.ObjectId
+  user       User         @relation(fields: [userId], references: [id])
+  userId     String       @db.ObjectId()
+  teacher    Teacher?     @relation(fields: [teacherId], references: [id])
+  teacherId  String?      @db.ObjectId()
+  LessonWeak LessonWeak[]
+}
+
+model LessonWeak {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  lesson   Lesson  @relation(fields: [lessonId], references: [id])
+  lessonId String  @db.ObjectId()
+  day      Day[]   @default([])
+  timeSlot String?
+}
+
+enum Day {
+  SUNDAY
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}
