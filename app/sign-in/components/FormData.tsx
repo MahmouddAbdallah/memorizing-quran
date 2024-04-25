@@ -6,12 +6,13 @@ import { useState } from 'react';
 import clsx from 'clsx';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/navigation'
 
 const FormData = () => {
     const { register, formState: { errors, isValid }, reset, handleSubmit } = useForm();
     const [loading, setLoading] = useState(false);
     const [showPass, setShowPass] = useState(false);
-
+    const router = useRouter()
     const onSubmit = handleSubmit(async (formData) => {
         try {
             setLoading(true);
@@ -19,6 +20,10 @@ const FormData = () => {
             toast.success(data.message)
             reset();
             setLoading(false);
+            router.push("/")
+            setTimeout(() => {
+                window.location.reload()
+            }, 2000)
         } catch (error: any) {
             console.error(error);
             toast.error(error?.response?.data?.message || 'There is an error');

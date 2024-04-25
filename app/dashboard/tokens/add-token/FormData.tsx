@@ -29,19 +29,21 @@ const FormData = () => {
             setLoading(false);
         }
     })
+
     const copy = (code: string) => {
         const textarea = document.createElement("textarea");
         textarea.value = code;
         document.body.appendChild(textarea);
         textarea.select();
         document.execCommand("copy");
-        // Remove the temporary textarea
         document.body.removeChild(textarea);
-        toast.success("Copied!");
-        return "Text copied to clipboard";
+        toast.success('تم النسخ', {
+            position: "top-right"
+        })
     }
+
     return (
-        <div className='w-full px-5'>
+        <div className='w-full px-5 flex justify-center'>
             <div className='w-full lg:w-[500px] px-10 pt-5 pb-10 border rounded-lg bg-white space-y-10'>
                 <form onSubmit={onSubmit} className='w-full flex justify-center'>
                     <div className='w-full space-y-5'>
@@ -69,14 +71,16 @@ const FormData = () => {
                     code &&
                     <div className='w-full space-y-3 text-sm'>
                         <div className='flex items-center justify-between'>
-                            <p className='font-medium'>{code?.price}</p>
+                            <p className='font-medium'>{code?.price} E.G</p>
                             <h6>لقد انشات كود بقيمة </h6>
                         </div>
                         <div className='bg-gray-100 py-2 w-full px-3 rounded-md'>
                             <div className='flex items-center justify-between'>
-                                <button onClick={() => {
-                                    copy(code?.code)
-                                }}><CopyIcon className='' /></button>
+                                <button
+                                    className='p-1 bg-gray-200 border border-gray-300 rounded hover:bg-gray-300 focus:bg-gray-200'
+                                    onClick={() => {
+                                        copy(code?.code)
+                                    }}><CopyIcon className='' /></button>
                                 <p className=""><span className='font-medium'>{code?.code}</span> : الكود</p>
                             </div>
                         </div>

@@ -33,15 +33,18 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: error.message, message: 'There is error in server' }, { status: 400 })
     }
 }
+
+
 export async function GET(req: Request) {
     try {
-        const user = await verifyAuth()
+        const url = new URL(req.url);
+        const searchParams = new URLSearchParams(url.search);
+        const token = searchParams.get('token');
+
+        const user = await verifyAuth(token as string)
         if (user) {
             if (user.role != 'admin') return NextResponse.json({ message: 'Not allow, you are not admin' }, { status: 400 });
-            // const url = new URL(req.url);
-            // const searchParams = new URLSearchParams(url.search);
-            // const price = searchParams.get('price')
-            const codes = await prisma.tokens.findFirst({})
+            const codes = await prisma.tokens.findMany({})
             return NextResponse.json({ codes, message: 'fetch tokens successfully!!' }, { status: 200 })
         } else {
             return NextResponse.json({ message: 'Not allow' }, { status: 400 })

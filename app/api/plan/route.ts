@@ -11,7 +11,7 @@ interface bodyInterface {
     session: string
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     try {
         const body: bodyInterface = await req.json();
         const user = await verifyAuth()

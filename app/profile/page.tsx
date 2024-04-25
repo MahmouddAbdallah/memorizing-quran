@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Profile = () => {
+const Schedule = () => {
     return (
-        <div>Profile</div>
+        <div>Schedule</div>
     )
 }
 
-export default Profile
+export default Schedule

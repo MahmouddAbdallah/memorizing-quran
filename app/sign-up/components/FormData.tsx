@@ -7,25 +7,32 @@ import { countryList } from '@/app/utils/CountriesNames';
 import clsx from 'clsx';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const FormData = () => {
-    const { register, formState: { errors, isValid }, watch, handleSubmit, clearErrors, reset, resetField } = useForm();
+    const { register, formState: { errors, isValid }, watch, handleSubmit, clearErrors, reset, setError } = useForm();
     const [loading, setLoading] = useState(false);
     const [showPass, setShowPass] = useState(false);
     const [showPassConfirm, setShowPassConfirm] = useState(false);
     const [date, setDate] = useState('');
     const [gender, setGender] = useState('')
     const today = new Date().toISOString().split('T')[0];
+    const router = useRouter()
 
 
     const onSubmit = handleSubmit(async (formData) => {
         try {
+            const allData = { ...formData, date }
+            if (!date) return setError("date", { message: 'يرجي ادخال إدخال التاريخ' })
             setLoading(true);
-            const { data } = await axios.post('/api/auth/sign-up/create', { ...formData })
+            const { data } = await axios.post('/api/auth/sign-up/create', { ...allData })
             toast.success(data.message)
             reset();
             setLoading(false);
-            window.location.reload()
+            router.push("/")
+            setTimeout(() => {
+                window.location.reload()
+            }, 2000)
         } catch (error: any) {
             console.error(error);
             toast.error(error?.response?.data?.message || 'There is an error');
@@ -75,9 +82,6 @@ const FormData = () => {
                                 <input
                                     type="text"
                                     pattern='^(19|20)\d{2}-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])$'
-                                    {...register("date",
-                                        { required: 'يرجي ادخال إدخال التاريخ', }
-                                    )}
                                     value={date}
                                     onChange={(e) => {
                                         setDate(e.target.value)
@@ -102,6 +106,7 @@ const FormData = () => {
                                                     clearErrors("date");
                                                 }
                                             }}
+                                            required
                                             className='w-5 outline-none opacity-0 z-10'
                                         />
                                         <CalendarIcon className='absolute w-5 h-5 z-0' />
@@ -113,8 +118,7 @@ const FormData = () => {
                         <div className="w-full">
                             <input
                                 type="text"
-                                {...register("phone",
-                                    { required: 'يرجي ادخال إدخال الهاتف' }
+                                {...register("phone", { required: 'يرجي ادخال إدخال الهاتف' }
                                 )}
                                 placeholder='رقم الهاتف'
                                 className={clsx(
@@ -238,7 +242,7 @@ const FormData = () => {
                     </div>
                     <div>
                         <button
-                            disabled={!isValid || loading}
+                            disabled={loading}
                             className='disabled:bg-black/10 bg-primary text-white font-medium py-3 rounded-md w-full flex justify-center items-center'
                         >
                             {loading ? <LoadingIcon className='w-6 h-6 animate-spin' /> : "حفظ"}

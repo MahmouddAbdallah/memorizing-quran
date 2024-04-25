@@ -13,9 +13,11 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <div >
+        <div className="flex">
+            <div className="flex-1 h-[5000px]">
+                {children}
+            </div>
             <Sidebar />
-            {children}
         </div>
     );
 }

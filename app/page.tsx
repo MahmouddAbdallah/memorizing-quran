@@ -119,6 +119,7 @@ import PreviousWork from './components/PreviousWork'
 import Footer from './components/Footer'
 import SubscribePlan from './components/SubscribePlan'
 
+export const dynamic = 'force-dynamic'
 const Home = () => {
   return (
     <div>

@@ -1,18 +1,44 @@
 'use client'
-import { LogoIcon, MenuIcon } from '@/app/components/icons'
+import { ArrowDown, ArrowUp, LogoIcon, MenuIcon } from '@/app/components/icons'
 import useClickOutside from '@/app/hooks/useClickOutSide'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import React, { useState } from 'react'
 
 const Sidebar = () => {
     // const context = useAppContext()
     const [open, setOpen] = useState(false)
     const refElement = useClickOutside(() => setOpen(false))
+    const pathname = usePathname()
+    const [href, setHref] = useState('')
+
+    const items = [
+        {
+            name: "الخطط",
+            href: 'plans',
+            subPage: [
+                {
+                    name: "اضافة خطة",
+                    href: 'add-plan'
+                }
+            ]
+        },
+        {
+            name: "الاكواد",
+            href: 'tokens',
+            subPage: [
+                {
+                    name: "انشاء كود",
+                    href: 'add-token'
+                }
+            ]
+        },
+    ]
 
     return (
-        <div className=''>
+        <div ref={refElement} className=''>
             <div className='bg-[#cacaca25] flex lg:hidden justify-between px-5 py-5 bg-white'>
-                <div ref={refElement}>
+                <div >
                     <MenuIcon onClick={() => { setOpen(!open) }} open={open} />
                 </div>
                 <div className=' flex items-center gap-3'>
@@ -24,25 +50,46 @@ const Sidebar = () => {
                     <Link href={'/'}><LogoIcon className='' /></Link>
                 </div>
                 <ul className='w-full'>
-                    <li className=''>
-                        <div>
-                            <Link href={'/dashboard/plans'} className='block py-3 px-5 w-full border-y-2 '>الخطط</Link>
-                        </div>
-                        <ul className='shadow-inner shadow-primary/20 '>
-                            <li>
-                                <Link
-                                    href={'/dashboard/plans/add'}
-                                    className='block text-sm text-black/70 py-3 px-5 w-full border-b hover:text-green-500 duration-150'>
-                                    اضافة خطة
-                                </Link>
+                    {items.map((item, i) => {
+                        return (
+                            <li className='' key={item.href}>
+                                <div>
+                                    <Link
+                                        href={`/dashboard/${item.href}`}
+                                        className={`block py-3 px-5 w-full ${i == 0 ? "border-y-2" : "border-b-2"}`}
+                                        onClick={() => { setHref(href == item.href ? "" : item.href) }}
+                                    >
+                                        <div className='flex justify-between'>
+                                            {
+                                                item.subPage ?
+                                                    <div>
+                                                        {href == item.href ? <ArrowUp className='w-5 h-5' /> : <ArrowDown className='w-5 h-5' />}
+                                                    </div>
+                                                    :
+                                                    <div />
+                                            }
+                                            <span>{item.name}</span>
+                                        </div>
+                                    </Link>
+                                </div>
+                                {
+                                    item.subPage &&
+                                    <ul className='shadow-inner shadow-primary/20 '>
+                                        {item.subPage.map(sub =>
+                                            (sub.href == pathname.split('/')[3] || href == item.href) &&
+                                            <li key={sub.href}>
+                                                <Link
+                                                    href={`/dashboard/${item.href}/${sub.href}`}
+                                                    className='block text-sm text-black/70 py-3 px-5 w-full border-b hover:text-green-500 duration-150'>
+                                                    {sub.name}
+                                                </Link>
+                                            </li>
+                                        )}
+                                    </ul>
+                                }
                             </li>
-                        </ul>
-                    </li>
-                    <li className=''>
-                        <div>
-                            <Link href={'/dashboard/token'} className='block py-3 px-5 w-full border-y-2 '>انشاء كود</Link>
-                        </div>
-                    </li>
+                        )
+                    })}
                 </ul>
             </div>
         </div>

@@ -8,7 +8,6 @@ import { useAppContext } from "../context/appContext"
 const Navbar = () => {
     const pathname = usePathname();
     const context = useAppContext();
-    console.log(context?.user);
 
     return (
         !pathname?.includes("dashboard") &&

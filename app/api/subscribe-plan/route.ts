@@ -12,10 +12,17 @@ interface bodyInterface {
 export async function POST(req: NextRequest) {
     try {
         const body: bodyInterface = await req.json()
-        const user = await verifyAuth()
+        const url = new URL(req.url);
+        const searchParams = new URLSearchParams(url.search);
+        const token = searchParams.get('token');
+        console.log({ token });
+
+        const user = await verifyAuth(token as string)
+        console.log({ user });
+
         if (user) {
-            const isBuy = await prisma.subsriblePlan.findFirst({ where: { userId: body.userId } })
-            if (isBuy) return NextResponse.json({ message: ' الخطه اشترتها من قبل' }, { status: 400 })
+            const isBuy = await prisma.subscribePlan.findFirst({ where: { userId: user.id, planId: body.planId } })
+            if (isBuy) return NextResponse.json({ message: "لقد اشتركة في هذه الدوره من قبل" }, { status: 400 })
 
             const code = await prisma.tokens.findFirst({ where: { code: body.code } });
             const plan = await prisma.plan.findFirst({ where: { id: body.planId } })
@@ -25,10 +32,17 @@ export async function POST(req: NextRequest) {
 
             if (code?.price == plan?.price) {
                 const [bill] = await prisma.$transaction([
-                    prisma.subsriblePlan.create({
+                    prisma.subscribePlan.create({
                         data: {
-                            userId: body.userId,
-                            planId: body?.planId,
+                            userId: user.id,
+                            planId: body.planId,
+                            subPlan: {
+                                price: plan.price,
+                                student: plan.student,
+                                children: plan.children,
+                                session: plan.session,
+                                duration: plan.duration
+                            }
                         }
                     }),
                     prisma.tokens.delete({
@@ -38,7 +52,7 @@ export async function POST(req: NextRequest) {
                     }),
                     prisma.lesson.create({
                         data: {
-                            userId: body.userId,
+                            userId: user.id,
                         }
                     })
                 ])
@@ -46,14 +60,20 @@ export async function POST(req: NextRequest) {
             }
             else if (code.price > plan.price) {
                 let balance: any
-                balance = await prisma.balance.findFirst({ where: { userId: body.userId } })
-                if (!balance) balance = await prisma.balance.create({ data: { userId: body.userId } })
-
+                balance = await prisma.balance.findFirst({ where: { userId: user.id } })
+                if (!balance) balance = await prisma.balance.create({ data: { userId: user.id } })
                 const [bill] = await prisma.$transaction([
-                    prisma.subsriblePlan.create({
+                    prisma.subscribePlan.create({
                         data: {
-                            userId: body.userId,
-                            planId: body?.planId,
+                            userId: user.id,
+                            planId: body.planId,
+                            subPlan: {
+                                price: plan.price,
+                                student: plan.student,
+                                children: plan.children,
+                                session: plan.session,
+                                duration: plan.duration
+                            }
                         }
                     }),
                     prisma.tokens.delete({
@@ -71,10 +91,18 @@ export async function POST(req: NextRequest) {
                     }),
                     prisma.lesson.create({
                         data: {
-                            userId: body.userId,
+                            userId: user.id,
                         }
-                    })
+                    }),
                 ])
+                await prisma.notification.create({
+                    data: {
+                        userId: user.id,
+                        type: 'CREATE',
+                        message: "لقد اشتركة في الدوره",
+                        subscribeId: bill.id
+                    }
+                })
                 return NextResponse.json({ bill, message: 'Create successfully' }, { status: 201 })
             } else {
                 return NextResponse.json({ message: 'مالك لا يكفي' }, { status: 400 })

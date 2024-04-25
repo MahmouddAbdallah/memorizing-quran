@@ -42,6 +42,28 @@ export async function PUT(req: NextRequest, { params }: { params: Params }) {
 }
 
 
+export async function GET(req: NextRequest, { params }: { params: Params }) {
+    try {
+        const { id } = params;
+        const url = new URL(req.url)
+        const searchParams = new URLSearchParams(url.searchParams)
+        const token = searchParams.get('token');
+
+        const user = await verifyAuth(token as string);
+        if (user) {
+            const plan = await prisma.plan.findFirst({
+                where: { id: id }
+            })
+            return NextResponse.json({ plan, message: 'Fetch data successfully' }, { status: 200 })
+        } else {
+            return NextResponse.json({ message: 'Not allow' }, { status: 400 })
+        }
+    } catch (error: any) {
+        return NextResponse.json({ error: error.message, message: 'There is error in server' }, { status: 400 })
+    }
+}
+
+
 export async function DELETE(req: NextRequest, { params }: { params: Params }) {
     try {
         const { id } = params;

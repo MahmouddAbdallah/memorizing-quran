@@ -1,22 +1,24 @@
 import axios from 'axios';
 import React from 'react'
 import PlansTable from './components/PlansTable';
+import { revalidatePath } from 'next/cache';
+// import { getPlans } from '@/app/utils/get-data/fetchPlan';
 
+export const dynamic = 'force-dynamic'
 
-const plans = async () => {
-    const fetchPlans = async () => {
-        try {
-            const { data } = await axios.get(`/api/plan`, {
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            })
-            return data
-        } catch (error: any) {
-            console.error(error);
+const Plan = async () => {
+    const getPlans = async () => {
+        const res = await fetch(`${process.env.BASE_URL}/api/plan`, {
+            method: "GET",
+            credentials: 'include',
+            cache: "no-cache",
+        })
+        if (!res.ok) {
+            throw new Error('Failed to fetch data')
         }
+        return res.json()
     }
-    const data = await fetchPlans();
+    const data = await getPlans()
 
     return (
         <div className=''>
@@ -28,6 +30,7 @@ const plans = async () => {
             </div>
         </div>
     )
+
 }
 
-export default plans
+export default Plan

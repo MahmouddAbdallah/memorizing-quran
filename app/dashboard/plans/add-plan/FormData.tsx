@@ -30,6 +30,7 @@ const FormData = () => {
             setLoading(false);
         }
     })
+
     return (
         <form onSubmit={onSubmit} className='w-full px-5 flex justify-center'>
             <div className='w-full lg:w-[500px] px-5 pt-5 pb-10 border rounded-lg bg-white flex flex-col items-center'>
