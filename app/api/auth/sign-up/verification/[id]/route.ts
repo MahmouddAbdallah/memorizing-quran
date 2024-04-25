@@ -4,6 +4,7 @@ import sendMial from '@/app/utils/resend';
 import prisma from '@/prisma/client';
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 import { NextRequest, NextResponse } from 'next/server';
+import { Resend } from 'resend';
 
 
 export async function POST(req: NextRequest, { params }: { params: Params }) {
@@ -84,6 +85,7 @@ export async function GET(req: NextRequest, { params }: { params: Params }) {
                 wait: waitTowMinute
             }
         })
+        const sendMial = new Resend(process.env.API_SECRET_RESEND_KEY);
         const { data, error } = await sendMial.emails.send({
             from: process.env.EMAILADDRESS as string,
             to: verification.user.email,

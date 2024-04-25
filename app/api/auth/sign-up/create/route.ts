@@ -6,6 +6,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
+import { Resend } from 'resend';
 
 
 interface bodyInterface {
@@ -59,6 +60,7 @@ export async function POST(req: NextRequest) {
             }
         })
 
+        const sendMial = new Resend(process.env.API_SECRET_RESEND_KEY);
         await sendMial.emails.send({
             from: process.env.EMAILADDRESS as string,
             to: newUser.email,
