@@ -3,9 +3,23 @@ import Image from "next/image";
 import { CheckIcon } from "./icons";
 import LoadingCard from "./LoadingCard";
 import Link from "next/link";
-import { getPlans } from '../utils/get-data/fetchPlan';
 
 const SubscribePlan = async () => {
+
+    async function getPlans() {
+        const res = await fetch(`${process.env.BASE_URL}/api/plan`, {
+            method: "GET",
+            credentials: 'include',
+            cache: "no-cache",
+            next: { revalidate: 100 }
+        })
+
+        if (!res.ok) {
+            throw new Error('Failed to fetch data')
+        }
+        return res.json()
+    }
+
     const data = await getPlans();
     return (
         <section id='subs' className='py-10 lg:py-20 p-container'>
@@ -27,7 +41,7 @@ const SubscribePlan = async () => {
                                                 <Image
                                                     src={quranImg}
                                                     alt=''
-                                                    className='w-60'
+                                                    className='w-60 brightness-105'
                                                     height={500}
                                                     width={500}
                                                 />

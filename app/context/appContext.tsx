@@ -20,19 +20,19 @@ const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
 
     const [user, setUser] = useState<UserInterface | null>(null)
 
-    const fetchUser = useCallback(async () => {
+    const fetchUser = async () => {
         try {
             const { data } = await axios.get('/api/verify-me')
             setUser(data?.user)
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
-            // toast.error('')
+            toast.error(error?.response?.data?.message || 'There is an error');
         }
-    }, [])
+    }
 
     useEffect(() => {
         fetchUser()
-    }, [fetchUser]);
+    }, []);
 
 
     return (
