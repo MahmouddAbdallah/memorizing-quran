@@ -13,7 +13,7 @@ export async function PUT(req: NextRequest, { params }: { params: Params }) {
         const { id } = params;
         const user = await verifyAuth()
         if (user) {
-            if (user.role == 'admin' || user.role == 'teacher') return NextResponse.json({ message: 'Not allow' }, { status: 400 })
+            if (user.role !== 'admin') return NextResponse.json({ message: 'Not allow' }, { status: 400 })
             const lesson = await prisma.lesson.update({
                 where: { id },
                 data: {

@@ -1,8 +1,6 @@
 import prisma from '@/prisma/client';
 import { NextResponse, NextRequest } from 'next/server';
 import { verifyAuth } from '@/lib/verfiyAuth';
-
-
 interface bodyInterface {
     price: string
     duration: string

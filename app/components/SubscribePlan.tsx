@@ -8,19 +8,23 @@ import { getPlans } from '../utils/get-data/fetchPlan';
 
 const SubscribePlan = async () => {
     try {
-        console.log(process.env.BASE_URL);
+        const fetchPlans = async () => {
+            try {
+                const res = await fetch(`http://localhost:3000/api/plan`, {
+                    method: "GET",
+                    credentials: 'include',
+                    next: { revalidate: 100 }
+                })
 
-        const res = await fetch(`http://localhost:3000/api/plan`, {
-            method: "GET",
-            credentials: 'include',
-            next: { revalidate: 100 }
-        })
-
-        if (!res.ok) {
-            throw new Error('Failed to fetch data')
+                if (!res.ok) {
+                    throw new Error('Failed to fetch data')
+                }
+                return await res.json()
+            } catch (error) {
+                console.error(error);
+            }
         }
-
-        const data = await res.json()
+        const data = await fetchPlans();
         return (
             <section id='subs' className='py-10 lg:py-20 p-container'>
                 <div className='pb-10'>

@@ -216,6 +216,11 @@ export const CopyIcon = ({ className }: { className: string }) => {
         <svg className={className} stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
     )
 }
+export const CloseIcon = ({ className }: { className: string }) => {
+    return (
+        <svg stroke="currentColor" className={className} fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
+    )
+}
 export const ArrowUp = ({ className }: { className: string }) => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
@@ -228,6 +233,15 @@ export const ArrowDown = ({ className }: { className: string }) => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
             <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+        </svg>
+    )
+}
+export const LiveIcon = ({ className }: { className: string }) => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" className={className} width="58" height="42" viewBox="0 0 58 42">
+            <path d="M29 6C22.93 6 18 10.93 18 17C18 23.07 22.93 28 29 28C35.07 28 40 23.07 40 17C40 10.93 35.07 6 29 6ZM29 26C24.04 26 20 21.96 20 17C20 12.04 24.04 8 29 8C33.96 8 38 12.04 38 17C38 21.96 33.96 26 29 26Z" />
+            <path d="M34.45 16.11L26.45 12.11C26.14 11.96 25.77 11.97 25.48 12.15C25.19 12.33 25.01 12.65 25.01 13V21C25.01 21.35 25.19 21.67 25.48 21.85C25.64 21.95 25.82 22 26.01 22C26.16 22 26.32 21.96 26.46 21.89L34.46 17.89C34.8 17.72 35.01 17.37 35.01 17C35.01 16.63 34.8 16.27 34.46 16.11H34.45ZM27 19.39V14.63L31.76 17.01L27 19.39Z" />
+            <path d="M55 0H3C1.35 0 0 1.35 0 3V31C0 32.65 1.35 34 3 34H25V36H20.47C17.33 36 14.51 37.74 13.1 40.55C12.94 40.86 12.96 41.23 13.14 41.52C13.32 41.81 13.64 41.99 13.99 41.99H43.99C44.34 41.99 44.66 41.81 44.84 41.52C45.02 41.23 45.04 40.86 44.88 40.55C43.48 37.74 40.65 36 37.51 36H32.98V34H54.98C56.63 34 57.98 32.65 57.98 31V3C57.98 1.35 56.63 0 54.98 0H55ZM37.53 38C39.31 38 40.95 38.74 42.11 40H15.89C17.05 38.74 18.69 38 20.47 38H37.53ZM27 36V34H31V36H27ZM56 31C56 31.55 55.55 32 55 32H3C2.45 32 2 31.55 2 31V3C2 2.45 2.45 2 3 2H55C55.55 2 56 2.45 56 3V31Z" />
         </svg>
     )
 }

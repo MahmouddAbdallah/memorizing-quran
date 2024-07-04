@@ -1,42 +1,26 @@
 'use client'
-import axios from 'axios'
-import { createContext, useCallback, useContext, useEffect, useState } from 'react'
-import toast, { Toaster } from 'react-hot-toast'
+import { createContext, useContext, } from 'react'
+import { Toaster } from 'react-hot-toast'
 interface UserInterface {
     id: string,
     name: string,
     email: string,
     phone: string,
     password: string,
-    role: string
+    role: string,
+    gender: string,
+    country: string,
+    active: boolean,
+    date: string
 }
 type AppContextTypes = {
     user: UserInterface | null,
-    setUser: React.Dispatch<React.SetStateAction<UserInterface | null>>,
 }
 const appContext = createContext<AppContextTypes | undefined>(undefined);
 
-const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
-
-    const [user, setUser] = useState<UserInterface | null>(null)
-
-    const fetchUser = async () => {
-        try {
-            const { data } = await axios.get('/api/verify-me')
-            setUser(data?.user)
-        } catch (error: any) {
-            console.error(error);
-            toast.error(error?.response?.data?.message || 'There is an error');
-        }
-    }
-
-    useEffect(() => {
-        fetchUser()
-    }, []);
-
-
+const AppContextProvider = ({ children, user }: { children: React.ReactNode, user: UserInterface }) => {
     return (
-        <appContext.Provider value={{ user, setUser }}>
+        <appContext.Provider value={{ user }}>
             {children}
             <Toaster position='bottom-right' toastOptions={{ 'duration': 3000 }} />
         </appContext.Provider>

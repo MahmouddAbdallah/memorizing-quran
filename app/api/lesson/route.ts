@@ -3,17 +3,40 @@ import { NextResponse, NextRequest } from 'next/server';
 import { verifyAuth } from '@/lib/verfiyAuth';
 
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
     try {
-        const user = await verifyAuth()
+        const user = await verifyAuth("", req)
         if (user) {
-            if (user.role == 'admin' || user.role == 'teacher') return NextResponse.json({ message: 'Not allow' }, { status: 400 })
-            const lessons = await prisma.lesson.findMany({
-                orderBy: {
-                    teacher: undefined
-                }
-            })
-            return NextResponse.json({ lessons, message: 'Fetch successfully' }, { status: 201 })
+            if (user.role == 'admin') {
+                const lessons = await prisma.lesson.findMany({
+                    select: {
+                        id: true,
+                        user: {
+                            select: {
+                                name: true,
+                                email: true,
+                            }
+                        },
+                        teacher: {
+                            select: {
+                                name: true,
+                                email: true,
+                            }
+                        },
+                        LessonWeak: {
+                            select: {
+                                id: true,
+                                timeSlot: true,
+                                day: true
+                            }
+                        },
+                        session: true,
+                        duration: true
+                    }
+                })
+                return NextResponse.json({ lessons, message: 'Fetch successfully' }, { status: 200 })
+            }
+            else return NextResponse.json({ message: 'Not allow' }, { status: 400 })
         } else {
             return NextResponse.json({ message: 'Not allow' }, { status: 400 })
         }

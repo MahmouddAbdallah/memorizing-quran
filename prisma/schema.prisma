@@ -116,15 +116,19 @@ model Lesson {
   teacher    Teacher?     @relation(fields: [teacherId], references: [id])
   teacherId  String?      @db.ObjectId()
   LessonWeak LessonWeak[]
+  session    String?
+  duration   String?
+  createAt   DateTime     @default(now())
 }
 
 model LessonWeak {
   id           String         @id @default(auto()) @map("_id") @db.ObjectId
   lesson       Lesson         @relation(fields: [lessonId], references: [id])
   lessonId     String         @db.ObjectId()
-  day          Day[]          @default([])
-  timeSlot     String?
+  day          Day
+  timeSlot     String
   Notification Notification[]
+  createAt     DateTime       @default(now())
 }
 
 enum Day {

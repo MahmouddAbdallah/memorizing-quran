@@ -6,11 +6,16 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
     try {
-        const token = cookies().get('token')?.value;
+        const tokenBearar = req.headers.get('authorization') as string;
+        let token = ""
+        if (tokenBearar) {
+            token = tokenBearar?.split(" ")[1]
+        } else {
+            token = cookies().get('token')?.value as string;
+        }
         const decode = jwt.verify(token as string, process.env.JWT_SECRET as string);
         const id = (decode as JwtPayload).id
         const role = (decode as JwtPayload).role
-
         if (role == 'admin' || role == 'teacher') {
             const teacher = await prisma.teacher.findUnique({
                 where: {
@@ -24,7 +29,8 @@ export async function GET(req: NextRequest) {
                     date: true,
                     email: true,
                     gender: true,
-                    phone: true
+                    phone: true,
+                    active: true,
                 }
             })
             if (!teacher) NextResponse.json({ message: 'Please Sign up' }, { status: 400 })

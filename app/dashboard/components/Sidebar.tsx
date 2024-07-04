@@ -33,6 +33,26 @@ const Sidebar = () => {
                 }
             ]
         },
+        {
+            name: "الاحصص",
+            href: 'lessons',
+            subPage: [
+                {
+                    name: "الحصص الجديدة",
+                    href: 'view-new-lesson'
+                }
+            ]
+        },
+        {
+            name: "المعلمين",
+            href: 'teachers',
+            subPage: [
+                {
+                    name: "اضافة معلم",
+                    href: 'add-teacher'
+                }
+            ]
+        },
     ]
 
     return (

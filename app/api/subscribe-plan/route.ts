@@ -15,10 +15,7 @@ export async function POST(req: NextRequest) {
         const url = new URL(req.url);
         const searchParams = new URLSearchParams(url.search);
         const token = searchParams.get('token');
-        console.log({ token });
-
         const user = await verifyAuth(token as string)
-        console.log({ user });
 
         if (user) {
             const isBuy = await prisma.subscribePlan.findFirst({ where: { userId: user.id, planId: body.planId } })
@@ -53,6 +50,8 @@ export async function POST(req: NextRequest) {
                     prisma.lesson.create({
                         data: {
                             userId: user.id,
+                            duration: plan.duration,
+                            session: plan.session
                         }
                     })
                 ])
@@ -92,6 +91,8 @@ export async function POST(req: NextRequest) {
                     prisma.lesson.create({
                         data: {
                             userId: user.id,
+                            duration: plan.duration,
+                            session: plan.session
                         }
                     }),
                 ])

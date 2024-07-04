@@ -1,9 +1,19 @@
 import prisma from '@/prisma/client'
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { cookies } from 'next/headers';
+import { NextRequest } from 'next/server';
 
-export const verifyAuth = async (token?: string) => {
+export const verifyAuth = async (token?: string, req?: NextRequest) => {
     try {
+        let token = ""
+        if (req) {
+            const tokenBearar = req.headers.get('authorization') as string;
+            if (tokenBearar) {
+                token = tokenBearar?.split(" ")[1]
+            } else {
+                token = cookies().get('token')?.value as string;
+            }
+        }
         if (token) {
             const decode = jwt.verify(token as string, process.env.JWT_SECRET as string);
             const id = (decode as JwtPayload).id

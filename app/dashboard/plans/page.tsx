@@ -14,7 +14,7 @@ const Plan = async () => {
             cache: "no-cache",
         })
         if (!res.ok) {
-            throw new Error('Failed to fetch data')
+            return new Error(await res.text() as string)
         }
         return res.json()
     }

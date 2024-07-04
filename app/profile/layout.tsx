@@ -13,11 +13,13 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <div className="flex">
-            <div className="flex-1 h-[5000px]">
+        <div className="flex gap-10">
+            <div className="flex-1">
                 {children}
             </div>
-            <Sidebar />
+            <div className="lg:block hidden">
+                <Sidebar />
+            </div>
         </div>
     );
 }

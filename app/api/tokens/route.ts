@@ -37,9 +37,7 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
     try {
-        const url = new URL(req.url);
-        const searchParams = new URLSearchParams(url.search);
-        const token = searchParams.get('token');
+        const token = req.headers.get('authorization')?.split(' ')[1] as string;
 
         const user = await verifyAuth(token as string)
         if (user) {

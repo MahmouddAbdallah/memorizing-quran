@@ -1,8 +1,9 @@
 import React from 'react'
+import UserInfo from './components/UserInfo'
 const Schedule = () => {
     return (
-        <div>
-            Schedule
+        <div className='px-44'>
+            <UserInfo />
         </div>
     )
 }

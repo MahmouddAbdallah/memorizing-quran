@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
             react: Confirm({ message: `${code}` as string }),
         });
 
-        const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET as string)
+        const token = jwt.sign({ id: newUser.id, role: newUser.role }, process.env.JWT_SECRET as string)
         cookies().set({
             name: 'token',
             value: token,

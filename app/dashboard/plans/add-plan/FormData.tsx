@@ -51,10 +51,9 @@ const FormData = () => {
                                 'w-full h-fit border-2 focus:border-primary hover:border-black/20 outline-none rounded-md px-2 py-3 placeholder:text-right text-right',
                             )}
                         >
-                            <option value="نص ساعة">نص ساعة</option>
                             <option value="ساعة">ساعة</option>
                             <option value="ساعة ونص"> ساعة ونص</option>
-                            <option value="ساعة ونص"> ساعتان</option>
+                            <option value='ساعتان'> ساعتان</option>
                         </select>
                     </div>
                     <div className="w-full">

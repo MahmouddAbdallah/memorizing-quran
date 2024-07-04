@@ -6,9 +6,8 @@ export async function getPlans() {
         credentials: 'include',
         next: { revalidate: 100 }
     })
-
     if (!res.ok) {
-        throw new Error('Failed to fetch data')
+        return await res.text()
     }
     return res.json()
 }
@@ -21,8 +20,7 @@ export async function getPlan(id: string) {
         cache: "reload"
     })
     if (!res.ok) {
-        const errorMessage = await res.text();
-        throw new Error(errorMessage);
+        return await res.text()
     }
     return res.json()
 }
