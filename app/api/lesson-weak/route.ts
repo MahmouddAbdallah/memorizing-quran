@@ -27,22 +27,81 @@ export async function GET(req: Request) {
     try {
         const user = await verifyAuth()
         if (user) {
-            const lessons = await prisma.lessonWeak.findMany({
-                where: {
-                    lesson: {
-                        user: {
-                            id: user.id
-                        }
+            let lessons: any;
+            if (user.role != 'user') {
+                lessons = await prisma.lessonWeak.findMany({
+                    where: {
+                        lesson: {
+                            teacher: {
+                                id: user.id
+                            }
+                        },
                     },
-                },
-                select: {
-                    id: true,
-                    day: true,
-                    timeSlot: true,
-                    lessonId: true
-                }
-            })
-            return NextResponse.json({ lessons, message: 'fetch successfully' }, { status: 200 })
+                    select: {
+                        id: true,
+                        day: true,
+                        timeSlot: true,
+                        lessonId: true,
+                        lesson: {
+                            select: {
+                                user: {
+                                    select: {
+                                        name: true,
+                                        id: true
+                                    }
+                                }
+                            }
+                        },
+                        session: {
+                            where: {
+                                cancelled: false
+                            },
+                            select: {
+                                id: true,
+                                link: true
+                            }
+                        }
+                    }
+                })
+                return NextResponse.json({ lessons, }, { status: 200 })
+            }
+            else {
+                lessons = await prisma.lessonWeak.findMany({
+                    where: {
+                        lesson: {
+                            user: {
+                                id: user.id
+                            }
+                        },
+                    },
+                    select: {
+                        id: true,
+                        day: true,
+                        timeSlot: true,
+                        lessonId: true,
+                        lesson: {
+                            select: {
+                                teacher: {
+                                    select: {
+                                        name: true,
+                                        id: true
+                                    }
+                                }
+                            }
+                        },
+                        session: {
+                            where: {
+                                cancelled: false
+                            },
+                            select: {
+                                id: true,
+                                link: true
+                            }
+                        }
+                    }
+                })
+                return NextResponse.json({ lessons, }, { status: 200 })
+            }
         } else {
             return NextResponse.json({ message: 'Not allow' }, { status: 400 })
         }

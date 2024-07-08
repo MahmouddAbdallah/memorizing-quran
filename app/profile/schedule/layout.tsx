@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import NavSchedule from "./components/NavSchedule";
+import SchProvider from "./schContext/schAppContext";
 
 export const metadata: Metadata = {
     title: "Profile",
@@ -11,8 +13,11 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <div >
-            {children}
-        </div>
+        <SchProvider>
+            <div >
+                <NavSchedule />
+                {children}
+            </div>
+        </SchProvider>
     );
 }

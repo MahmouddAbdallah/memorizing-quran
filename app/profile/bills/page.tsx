@@ -27,7 +27,7 @@ const page = async () => {
         <div>
             <div className='p-container py-10'>
                 <div className='flex justify-end flex-wrap'>
-                    {
+                    {data?.bills?.length ?
                         data.bills.map((item: { id: string; subPlan: any }) => {
                             return (
                                 <div key={item.id}>
@@ -48,6 +48,14 @@ const page = async () => {
                                 </div>
                             )
                         })
+                        : <div className='w-full'>
+                            <div className='w-full flex justify-center border-2 border-primary/70 rounded-lg'>
+                                <div className='px-5 py-10 text-center'>
+                                    <div className='text-2xl font-bold text-primary/70'>لا يوجد فواتيرى
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     }
                 </div>
             </div>

@@ -5,7 +5,7 @@ import { verifyAuth } from '@/lib/verfiyAuth';
 
 export async function GET(req: NextRequest) {
     try {
-        const user = await verifyAuth("", req)
+        const user = await verifyAuth(req)
         if (user) {
             if (user.role == 'admin') {
                 const lessons = await prisma.lesson.findMany({

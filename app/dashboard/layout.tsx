@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import Sidebar from "./components/Sidebar";
+import { getRole } from "@/lib/verfiyAuth";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 
 export const metadata: Metadata = {
@@ -12,12 +16,19 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const token = cookies().get('token')?.value;
+    const user = getRole(token as string);
+    if (!user || (user.role !== 'admin')) {
+        redirect('/');
+    }
     return (
-        <div className="flex flex-col lg:flex-row">
-            <Sidebar />
-            <div className="flex-grow bg-[#cacaca25] lg:px-5">
-                {children}
+        <Suspense fallback={"loading.........."}>
+            <div className="flex flex-col lg:flex-row">
+                <Sidebar />
+                <div className="flex-grow bg-[#cacaca25] lg:px-5">
+                    {children}
+                </div>
             </div>
-        </div>
+        </Suspense>
     );
 }

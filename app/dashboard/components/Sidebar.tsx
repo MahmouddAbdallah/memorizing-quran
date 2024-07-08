@@ -1,17 +1,18 @@
 'use client'
 import { ArrowDown, ArrowUp, LogoIcon, MenuIcon } from '@/app/components/icons'
+import { useAppContext } from '@/app/context/appContext'
 import useClickOutside from '@/app/hooks/useClickOutSide'
+import clsx from 'clsx'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useState } from 'react'
 
 const Sidebar = () => {
-    // const context = useAppContext()
     const [open, setOpen] = useState(false)
     const refElement = useClickOutside(() => setOpen(false))
     const pathname = usePathname()
     const [href, setHref] = useState('')
-
+    const context = useAppContext()
     const items = [
         {
             name: "الخطط",
@@ -62,12 +63,12 @@ const Sidebar = () => {
                     <MenuIcon onClick={() => { setOpen(!open) }} open={open} />
                 </div>
                 <div className=' flex items-center gap-3'>
-                    <Link href={'/'}><LogoIcon className='w-11 h-11 stroke-[5px]' /></Link>
+                    <Link href={context?.user ? "/profile/schedule" : "/"}><LogoIcon className='w-11 h-11 stroke-[5px]' /></Link>
                 </div>
             </div>
             <div className={`${open ? 'rtl' : 'ltr'} shadow-md py-10 w-56 lg:w-64 lg:flex flex-col items-center h-screen space-y-10 fixed lg:sticky top-0 z-50 bg-white`}>
                 <div className='flex justify-center'>
-                    <Link href={'/'}><LogoIcon className='' /></Link>
+                    <Link href={context?.user ? "/profile/schedule" : "/"}><LogoIcon className='' /></Link>
                 </div>
                 <ul className='w-full'>
                     {items.map((item, i) => {
@@ -76,7 +77,10 @@ const Sidebar = () => {
                                 <div>
                                     <Link
                                         href={`/dashboard/${item.href}`}
-                                        className={`block py-3 px-5 w-full ${i == 0 ? "border-y-2" : "border-b-2"}`}
+                                        className={clsx(
+                                            `block py-3 px-5 w-full ${i == 0 ? "border-y-2" : "border-b-2"}`,
+                                            { 'bg-primary text-white': pathname.includes(item.href) }
+                                        )}
                                         onClick={() => { setHref(href == item.href ? "" : item.href) }}
                                     >
                                         <div className='flex justify-between'>

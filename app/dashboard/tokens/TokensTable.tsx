@@ -43,36 +43,42 @@ const TokensTable = ({ data }: { data: any }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data?.codes?.map((code: any, i: number) => {
-                        return (
-                            !removeId.some((id) => id == code.id) &&
-                            <tr key={code.id} className='text-center'>
-                                <td className='border-b-2 border-x-2 py-2 px-5'>
-                                    <button
-                                        onClick={() => {
-                                            setId(code.id)
-                                            setOpenDeleteCode(true)
-                                        }}
-                                        className='w-full flex justify-center group'>
-                                        <DeleteIcon className='w-4 h-4  group-hover:stroke-red-500 duration-150' />
-                                    </button>
-                                </td>
-                                <td className='border-b-2 border-x-2 py-2 px-5'>
-                                    <button
-                                        className='w-full flex justify-center group '>
-                                        <EditIcon className='w-4 h-4 group-hover:stroke-blue-500 duration-150' />
-                                    </button>
-                                </td>
-                                <td className='border-b-2 border-x-2 py-2 px-10'>
-                                    {code.code}
-                                </td>
-                                <td className='border-b-2 border-x-2 '>
-                                    {code.price}
-                                </td>
-                                <td className='border-b-2 border-x-2 py-2 px-3'>{i + 1}</td>
+                    {
+                        data?.codes?.length ?
+                            data?.codes?.map((code: any, i: number) => {
+                                return (
+                                    !removeId.some((id) => id == code.id) &&
+                                    <tr key={code.id} className='text-center'>
+                                        <td className='border-b-2 border-x-2 py-2 px-5'>
+                                            <button
+                                                onClick={() => {
+                                                    setId(code.id)
+                                                    setOpenDeleteCode(true)
+                                                }}
+                                                className='w-full flex justify-center group'>
+                                                <DeleteIcon className='w-4 h-4  group-hover:stroke-red-500 duration-150' />
+                                            </button>
+                                        </td>
+                                        <td className='border-b-2 border-x-2 py-2 px-5'>
+                                            <button
+                                                className='w-full flex justify-center group '>
+                                                <EditIcon className='w-4 h-4 group-hover:stroke-blue-500 duration-150' />
+                                            </button>
+                                        </td>
+                                        <td className='border-b-2 border-x-2 py-2 px-10'>
+                                            {code.code}
+                                        </td>
+                                        <td className='border-b-2 border-x-2 '>
+                                            {code.price}
+                                        </td>
+                                        <td className='border-b-2 border-x-2 py-2 px-3'>{i + 1}</td>
+                                    </tr>
+                                )
+                            })
+                            : <tr>
+                                <td colSpan={5} className='border-b-2 border-x-2 py-5 px-3 text-center' >لا يوجد بيانات</td>
                             </tr>
-                        )
-                    })}
+                    }
                 </tbody>
             </table>
             {openDeleteCode &&

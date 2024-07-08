@@ -140,16 +140,14 @@ const FormData = () => {
                                     <input
                                         checked={gender == 'female' ? true : false}
                                         type="radio"
-                                        {...register('gender', {
-                                            required: 'الرجاء ادخال النوع',
-                                            value: 'female',
-                                            onChange: (e) => {
-                                                setGender(e.target.value)
-                                                if (errors?.gender?.message) {
-                                                    clearErrors("gender");
-                                                }
+                                        {...register('gender', { required: 'الرجاء ادخال النوع' })}
+                                        value={'female'}
+                                        onChange={(e) => {
+                                            setGender(e.target.value)
+                                            if (errors?.gender?.message) {
+                                                clearErrors("gender");
                                             }
-                                        })}
+                                        }}
                                         className='cursor-pointer sr-only peer'
                                     />
                                     <div className='radio-style' />
@@ -159,16 +157,14 @@ const FormData = () => {
                                     <input
                                         checked={gender == 'male' ? true : false}
                                         type="radio"
-                                        {...register('gender', {
-                                            required: 'الرجاء ادخال النوع',
-                                            value: 'male',
-                                            onChange: (e) => {
-                                                setGender(e.target.value)
-                                                if (errors?.gender?.message) {
-                                                    clearErrors("gender");
-                                                }
+                                        {...register('gender', { required: 'الرجاء ادخال النوع' })}
+                                        value={'male'}
+                                        onChange={(e) => {
+                                            setGender(e.target.value)
+                                            if (errors?.gender?.message) {
+                                                clearErrors("gender");
                                             }
-                                        })}
+                                        }}
                                         className='cursor-pointer sr-only peer'
                                     />
                                     <div className='radio-style' />

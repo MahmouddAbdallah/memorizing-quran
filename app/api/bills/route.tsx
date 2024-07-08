@@ -4,7 +4,7 @@ import prisma from '@/prisma/client';
 
 export async function GET(req: NextRequest) {
     try {
-        const user = await verifyAuth("", req)
+        const user = await verifyAuth(req)
         if (user) {
             const bills = await prisma.subscribePlan.findMany({
                 where: {

@@ -1,6 +1,7 @@
 'use client'
 import Logout from '@/app/components/Logout'
 import { ArrowDown, ArrowUp, LogoIcon, MenuIcon } from '@/app/components/icons'
+import { useAppContext } from '@/app/context/appContext'
 import useClickOutside from '@/app/hooks/useClickOutSide'
 import clsx from 'clsx'
 import Link from 'next/link'
@@ -11,7 +12,7 @@ const Sidebar = () => {
     const [open, setOpen] = useState(false)
     const refElement = useClickOutside(() => setOpen(false))
     const pathname = usePathname()
-
+    const context = useAppContext()
     const items = [
         {
             name: "جدول حصصى",
@@ -36,6 +37,7 @@ const Sidebar = () => {
                 <ul className='w-full'>
                     {items.map((item, i) => {
                         return (
+                            !(((context?.user?.role != 'user')) && item.name == 'فواتيرى') &&
                             <li className='' key={item.href}>
                                 <div>
                                     <Link

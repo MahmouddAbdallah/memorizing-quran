@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { MenuIcon } from './icons'
 import useClickOutside from '../hooks/useClickOutSide'
 import Link from 'next/link'
+import { useAppContext } from '../context/appContext'
 
 const Menu = () => {
     const [open, setOpen] = useState(false)
@@ -11,6 +12,7 @@ const Menu = () => {
         // if (open) document.body.style.overflowY = 'auto';
         // else document.body.style.overflowY = 'hidden';
     }
+    const context = useAppContext()
     const refElement = useClickOutside(() => setOpen(false))
     return (
         <div ref={refElement} className="block md:hidden">
@@ -34,26 +36,36 @@ const Menu = () => {
                                 className='py-5 flex justify-center border-b border-white hover:bg-white/15 duration-300'>
                                 الاعمال السابقه
                             </Link>
-                            <Link
-                                onClick={handleopen}
-                                href={"/dashboard"}
-                                className='py-5 flex justify-center border-b border-white hover:bg-white/15 duration-300'>
-                                لوحة التحكم
-                            </Link>
+                            {
+                                context?.user?.role == 'admin' &&
+                                <Link
+                                    onClick={handleopen}
+                                    href={"/dashboard"}
+                                    className='py-5 flex justify-center border-b border-white hover:bg-white/15 duration-300'>
+                                    لوحة التحكم
+                                </Link>
+                            }
                         </div>
                         <div className=' flex gap-3'>
-                            <Link
-                                onClick={handleopen}
-                                href={'/sign-up'}
-                                className=" px-5 whitespace-nowrap bg-blue-500 rounded-md py-2 text-white">
-                                انضم الينا
-                            </Link>
-                            <Link
-                                onClick={handleopen}
-                                href={'/sign-in'}
-                                className=" px-5 whitespace-nowrap bg-black rounded-md py-2 text-white">
-                                سجل الان
-                            </Link>
+                            {
+                                context?.user ?
+                                    ""
+                                    :
+                                    <>
+                                        <Link
+                                            onClick={handleopen}
+                                            href={'/sign-up'}
+                                            className=" px-5 whitespace-nowrap bg-blue-500 rounded-md py-2 text-white">
+                                            انضم الينا
+                                        </Link>
+                                        <Link
+                                            onClick={handleopen}
+                                            href={'/sign-in'}
+                                            className=" px-5 whitespace-nowrap bg-black rounded-md py-2 text-white">
+                                            سجل الان
+                                        </Link>
+                                    </>
+                            }
                         </div>
                     </div>
                 </div>

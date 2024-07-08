@@ -24,7 +24,6 @@ const FormData = () => {
     const onSubmit = handleSubmit(async (formData) => {
         try {
             const allData = { ...formData, date }
-            if (!date) return setError("date", { message: 'يرجي ادخال إدخال التاريخ' })
             setLoading(true);
             const { data } = await axios.post('/api/teacher', { ...allData })
             toast.success(data.message)
@@ -107,7 +106,6 @@ const FormData = () => {
                                                     clearErrors("date");
                                                 }
                                             }}
-                                            required
                                             className='w-5 outline-none opacity-0 z-10'
                                         />
                                         <CalendarIcon className='absolute w-5 h-5 z-0' />
@@ -119,8 +117,7 @@ const FormData = () => {
                         <div className="w-full">
                             <input
                                 type="text"
-                                {...register("phone", { required: 'يرجي ادخال إدخال الهاتف' }
-                                )}
+                                {...register("phone")}
                                 placeholder='رقم الهاتف'
                                 className={clsx(
                                     'w-full h-fit border-2 focus:border-primary hover:border-black/20 outline-none rounded-md px-2 py-3 placeholder:text-right text-right',
@@ -141,16 +138,14 @@ const FormData = () => {
                                     <input
                                         checked={gender == 'female' ? true : false}
                                         type="radio"
-                                        {...register('gender', {
-                                            required: 'الرجاء ادخال النوع',
-                                            value: 'female',
-                                            onChange: (e) => {
-                                                setGender(e.target.value)
-                                                if (errors?.gender?.message) {
-                                                    clearErrors("gender");
-                                                }
+                                        {...register('gender', { required: 'الرجاء ادخال النوع' })}
+                                        value={'female'}
+                                        onChange={(e) => {
+                                            setGender(e.target.value)
+                                            if (errors?.gender?.message) {
+                                                clearErrors("gender");
                                             }
-                                        })}
+                                        }}
                                         className='cursor-pointer sr-only peer'
                                     />
                                     <div className='radio-style' />
@@ -160,16 +155,14 @@ const FormData = () => {
                                     <input
                                         checked={gender == 'male' ? true : false}
                                         type="radio"
-                                        {...register('gender', {
-                                            required: 'الرجاء ادخال النوع',
-                                            value: 'male',
-                                            onChange: (e) => {
-                                                setGender(e.target.value)
-                                                if (errors?.gender?.message) {
-                                                    clearErrors("gender");
-                                                }
+                                        {...register('gender', { required: 'الرجاء ادخال النوع' })}
+                                        value={'male'}
+                                        onChange={(e) => {
+                                            setGender(e.target.value)
+                                            if (errors?.gender?.message) {
+                                                clearErrors("gender");
                                             }
-                                        })}
+                                        }}
                                         className='cursor-pointer sr-only peer'
                                     />
                                     <div className='radio-style' />
@@ -179,7 +172,7 @@ const FormData = () => {
                         </div>
                         <div className='w-full'>
                             <select
-                                {...register('country', { required: 'الرجاء ادخال الدولة' })}
+                                {...register('country',)}
                                 className={clsx(
                                     'w-full h-fit border-2 focus:border-primary hover:border-black/20 outline-none rounded-md px-2 py-3 placeholder:text-right text-right',
                                     { "border-red-500": errors?.country?.message }

@@ -3,7 +3,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
 
-export const verifyAuth = async (token?: string, req?: NextRequest) => {
+export const verifyAuth = async (req?: NextRequest) => {
     try {
         let token = ""
         if (req) {
@@ -79,5 +79,22 @@ export const verifyAuth = async (token?: string, req?: NextRequest) => {
         }
     } catch (error: any) {
         return false;
+    }
+}
+
+export const getRole = (token: any) => {
+    if (token) {
+        const decode = jwt.verify(token as string, process.env.JWT_SECRET as string);
+        const id = (decode as JwtPayload).id as string
+        const role = (decode as JwtPayload).role as string
+        return { role, id }
+    } else {
+        const token = cookies().get('token')?.value;
+        if (token) {
+            const decode = jwt.verify(token as string, process.env.JWT_SECRET as string);
+            const id = (decode as JwtPayload).id as string
+            const role = (decode as JwtPayload).role as string
+            return { role, id }
+        }
     }
 }

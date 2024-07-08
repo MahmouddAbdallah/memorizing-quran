@@ -1,78 +1,40 @@
-// import { LiveIcon } from '@/app/components/icons'
-// import Link from 'next/link'
-// import React from 'react'
-
-// const Today = ({ nextDay, today, timeSlot }: { nextDay: string, today: string, timeSlot: string }) => {
-
-//     function parseTimeString(timeString: string) {
-//         let [hours, minutes] = timeString.split(':');
-//         let date = new Date();
-//         date.setHours(parseInt(hours, 10));
-//         date.setMinutes(parseInt(minutes, 10));
-//         date.setSeconds(0);
-//         date.setMilliseconds(0);
-//         return date;
-//     }
-
-//     function compareTimes(givenTimeString: string): boolean {
-//         let now = new Date();
-//         let givenDate = parseTimeString(givenTimeString);
-
-//         if (givenDate > now) {
-//             return false;
-//         }
-//         const tenMinutesAgo = new Date(now.getTime() - 10 * 60 * 1000);
-//         console.log(tenMinutesAgo);
-
-//         if (givenDate >= tenMinutesAgo) {
-//             return true;
-//         } else {
-//             return false;
-//         }
-//     }
-
-
-//     console.log(today, nextDay, nextDay != today);
-
-//     const comparisonResult = compareTimes(timeSlot);
-//     console.log(comparisonResult);
-
-
-//     return (
-//         <div className='flex items-center justify-center h-96'>
-//             <div className='flex flex-col items-center gap-5'>
-//                 <div>
-//                     <LiveIcon className='w-32 h-32' />
-//                 </div>
-//                 <div>
-//                     {(nextDay != today && !comparisonResult) ?
-//                         <div className='px-6 py-2 bg-black/50 text-white rounded-md'>
-//                             zoom انضم الي
-//                         </div>
-//                         :
-//                         <Link
-//                             href={'https://us05web.zoom.us/j/89275426271?pwd=krCZSGoZbGFEMe3h4P6ztqluenh813.1'}
-//                             target='blank'
-//                             className='px-6 py-2 bg-blue-500 text-white rounded-md'
-//                         >
-//                             zoom انضم الي
-//                         </Link>
-//                     }
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
-
-// export default Today
-
+'use client';
 import { LiveIcon } from '@/app/components/icons'
 import { isWithin10Minutes } from '@/app/utils/After10Mintue'
 import Link from 'next/link'
 import React from 'react'
+import { useSchAppContext } from '../schContext/schAppContext'
 
-const Today = ({ nextDay, today, timeSlot }: { nextDay: string, today: string, timeSlot: string }) => {
+const Today = () => {
+    const schContext = useSchAppContext()
+    const date = () => {
+        const days = schContext?.lessons?.map((item: { day: string, timeSlot: 'string' }) => {
+            const firstChar = item.day.split("")[0].toUpperCase();
+            return { day: `${firstChar}${item.day.slice(1).toLowerCase()}`, timeSlot: item.timeSlot }
+        })
+        if (schContext?.lessons?.length) {
+            const today = new Date();
+            const dayOfWeek = today.toLocaleDateString("en-EG", { weekday: "long" });
+            const currentIndex = days.findIndex((index: any) => index.day == dayOfWeek)
+            const nextIndex = (currentIndex + 1) % days.length;
+            const nextLesson = days[nextIndex]
+            const nextDay = nextLesson?.day?.toUpperCase();
+            const timeSlot = nextLesson?.timeSlot;
+            if (days.some((item: any) => item.day == dayOfWeek)) {
+                const timeSlot = days.filter((item: any) => item.day == dayOfWeek)[0].timeSlot
+                return { nextDay: dayOfWeek, timeSlot, dayOfWeek, bool: days.some((item: any) => item.day == dayOfWeek) }
+            }
+            else
+                return { nextDay, timeSlot, dayOfWeek }
+        }
+        else return { nextDay: "", timeSlot: "", dayOfWeek: "" }
+    }
+
+    const timeSlot = date().timeSlot
+    const nextDay = date()?.nextDay?.toUpperCase()
+    const today = date()?.dayOfWeek?.toUpperCase()
     const comparisonResult = isWithin10Minutes(timeSlot)
+
     return (
         <div className='flex items-center justify-center h-96'>
             <div className='flex flex-col items-center gap-5'>

@@ -3,8 +3,6 @@ import Image from "next/image";
 import { CheckIcon } from "./icons";
 import LoadingCard from "./LoadingCard";
 import Link from "next/link";
-import { getPlans } from '../utils/get-data/fetchPlan';
-
 
 const SubscribePlan = async () => {
     try {

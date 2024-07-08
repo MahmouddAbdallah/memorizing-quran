@@ -45,11 +45,7 @@ export async function PUT(req: NextRequest, { params }: { params: Params }) {
 export async function GET(req: NextRequest, { params }: { params: Params }) {
     try {
         const { id } = params;
-        const url = new URL(req.url)
-        const searchParams = new URLSearchParams(url.searchParams)
-        const token = searchParams.get('token');
-
-        const user = await verifyAuth(token as string);
+        const user = await verifyAuth(req);
         if (user) {
             const plan = await prisma.plan.findFirst({
                 where: { id: id }

@@ -35,11 +35,10 @@ export async function POST(req: Request) {
 }
 
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
     try {
-        const token = req.headers.get('authorization')?.split(' ')[1] as string;
 
-        const user = await verifyAuth(token as string)
+        const user = await verifyAuth(req as NextRequest)
         if (user) {
             if (user.role != 'admin') return NextResponse.json({ message: 'Not allow, you are not admin' }, { status: 400 });
             const codes = await prisma.tokens.findMany({})

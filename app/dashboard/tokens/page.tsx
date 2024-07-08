@@ -1,8 +1,27 @@
 import React from 'react'
 import TokensTable from './TokensTable';
-import { getCodes } from '@/app/utils/get-data/fetchCodes';
+import { cookies } from 'next/headers';
 
 const Tokens = async () => {
+    const getCodes = async () => {
+        try {
+            const token = cookies().get('token')?.value
+            const res = await fetch(`${process.env.BASE_URL}/api/tokens`, {
+                method: "GET",
+                credentials: 'include',
+                cache: "reload",
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            if (!res.ok) {
+                return new Error(await res.text());
+            }
+            return res.json()
+        } catch (error) {
+            console.error(error);
+        }
+    }
     const data = await getCodes();
 
     return (

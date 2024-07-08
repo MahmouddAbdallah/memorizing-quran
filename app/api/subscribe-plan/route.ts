@@ -12,10 +12,7 @@ interface bodyInterface {
 export async function POST(req: NextRequest) {
     try {
         const body: bodyInterface = await req.json()
-        const url = new URL(req.url);
-        const searchParams = new URLSearchParams(url.search);
-        const token = searchParams.get('token');
-        const user = await verifyAuth(token as string)
+        const user = await verifyAuth(req)
 
         if (user) {
             const isBuy = await prisma.subscribePlan.findFirst({ where: { userId: user.id, planId: body.planId } })

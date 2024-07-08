@@ -31,6 +31,7 @@ model User {
   SubscribePlan SubscribePlan[]
   Balance       Balance[]
   Notification  Notification[]
+  Session       Session[]
 }
 
 model Teacher {
@@ -48,6 +49,7 @@ model Teacher {
   updateAt     DateTime       @updatedAt()
   Lesson       Lesson[]
   Notification Notification[]
+  Session      Session[]
 }
 
 enum Role {
@@ -129,6 +131,8 @@ model LessonWeak {
   timeSlot     String
   Notification Notification[]
   createAt     DateTime       @default(now())
+  session      Session[]
+  sessionId    String?        @db.ObjectId
 }
 
 enum Day {
@@ -139,6 +143,19 @@ enum Day {
   THURSDAY
   FRIDAY
   SATURDAY
+}
+
+model Session {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  lessonWeak   LessonWeak @relation(fields: [lessonWeakId], references: [id])
+  lessonWeakId String     @db.ObjectId()
+  user         User       @relation(fields: [userId], references: [id])
+  userId       String     @db.ObjectId()
+  teacher      Teacher    @relation(fields: [teacherId], references: [id])
+  teacherId    String     @db.ObjectId()
+  link         String
+  createdAt    DateTime   @default(now())
+  cancelled    Boolean    @default(false)
 }
 
 model Notification {

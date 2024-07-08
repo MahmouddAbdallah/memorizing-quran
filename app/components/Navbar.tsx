@@ -36,11 +36,11 @@ const Navbar = () => {
                 </div>
                 <div className="flex gap-5">
                     <ul className="flex items-center gap-3">
-                        <li className="hidden md:block"><Link href={'/dashboard'}>لوحة التحكم</Link></li>
+                        {context?.user?.role == 'admin' && <li className="hidden md:block"><Link href={'/dashboard'}>لوحة التحكم</Link></li>}
                         <li className="hidden md:block"><Link href={'/#previousWork'}> الاعمال السابقه</Link></li>
                         <li className="hidden md:block"><Link href={'/'}>الصفحة الرئيسية</Link></li>
                     </ul>
-                    <Link className="block" href={'/'}>
+                    <Link className="block" href={context?.user ? "/profile/schedule" : "/"}>
                         <LogoIcon className="w-16 h-16 md:w-16 md:h-16" />
                     </Link>
                 </div>

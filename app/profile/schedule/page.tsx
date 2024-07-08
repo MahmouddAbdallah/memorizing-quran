@@ -1,14 +1,18 @@
+import { getRole } from '@/lib/verfiyAuth'
+import { cookies } from 'next/headers'
 import React from 'react'
-import NavSchedule from './components/NavSchedule'
-import Toggle from './components/Toggle'
+import TodayTeacher from './components/TodayTeacher';
+import Today from './components/Today';
 
 const page = () => {
-    return (
-        <div>
-            <NavSchedule />
-            <Toggle />
-        </div>
-    )
+    const token = cookies().get('token')?.value;
+    const user = getRole(token as string)
+    if (user?.role != 'user') {
+        return <TodayTeacher />
+    }
+    else {
+        return <Today />
+    }
 }
 
 export default page
