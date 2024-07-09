@@ -12,8 +12,8 @@ export const dynamic = 'force-dynamic'
 const Home = () => {
   const token = cookies().get('token')?.value;
   const user = getRole(token)
-  if (token) {
-    redirect(user?.role == 'admin' ? '/dashboard' : '/profile/schedule')
+  if (user?.role != 'admin') {
+    redirect('/profile/schedule')
   }
   return (
     <div>

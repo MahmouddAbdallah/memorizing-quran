@@ -18,6 +18,12 @@ interface bodyInterface {
     gender: string;
     password: string;
 }
+enum NotType {
+    CREATE = 'CREATE',
+    UPDATE = 'UPDATE',
+    DELETE = 'DELETE'
+}
+
 
 export async function POST(req: NextRequest) {
     try {
@@ -57,6 +63,14 @@ export async function POST(req: NextRequest) {
                 code: `${code}`,
                 updateAt: new Date(),
                 wait: waitTowMinute
+            }
+        })
+        await prisma.notification.create({
+            data: {
+                userId: newUser.id,
+                message: "حساب جديد",
+                type: NotType.CREATE,
+                role: 'admin',
             }
         })
 

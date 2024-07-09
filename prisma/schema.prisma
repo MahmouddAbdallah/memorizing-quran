@@ -161,7 +161,6 @@ model Session {
 model Notification {
   id            String         @id @default(auto()) @map("_id") @db.ObjectId
   isRead        Boolean        @default(false)
-  isAdminRead   Boolean        @default(false)
   type          NotType
   message       String?
   user          User?          @relation(fields: [userId], references: [id])
@@ -172,6 +171,7 @@ model Notification {
   teacherId     String?        @db.ObjectId()
   subscribeId   String?        @db.ObjectId()
   lessonWeakId  String?        @db.ObjectId()
+  role          String?
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @default(now())
 }

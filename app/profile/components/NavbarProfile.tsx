@@ -52,7 +52,7 @@ const NavbarProfile = () => {
                     </div>
                 </div>
                 <div className="flex gap-5">
-                    <Link className="block" href={context?.user ? "/profile/schedule" : "/"}>
+                    <Link className="block" href={context?.user?.role == 'admin' ? "/" : "/profile/schedule"}>
                         <LogoIcon className="w-16 h-16 md:w-16 md:h-16" />
                     </Link>
                 </div>

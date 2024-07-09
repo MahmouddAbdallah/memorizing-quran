@@ -37,7 +37,7 @@ const PopUpMessage = ({
                         </h6>
                     </div>
                     <div className='py-5 px-3'>
-                        <span>{msg}</span>
+                        <p className='text-right'>{msg}</p>
                     </div>
                     <div className='flex justify-start px-3 pb-2 gap-3'>
                         <button

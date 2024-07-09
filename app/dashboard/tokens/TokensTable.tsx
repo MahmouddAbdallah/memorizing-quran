@@ -36,7 +36,7 @@ const TokensTable = ({ data }: { data: any }) => {
                 <thead>
                     <tr className='text-center'>
                         <th scope="col" className="border-2 py-3 px-10">حذف</th>
-                        <th scope="col" className="border-2 py-3 px-10">تعديل</th>
+                        {/* <th scope="col" className="border-2 py-3 px-10">تعديل</th> */}
                         <th scope="col" className="border-2 py-3 px-10">الكود</th>
                         <th scope="col" className="border-2 py-3 px-10">السعر</th>
                         <th scope="col" className="border-2 py-3 px-3">العدد</th>
@@ -59,12 +59,12 @@ const TokensTable = ({ data }: { data: any }) => {
                                                 <DeleteIcon className='w-4 h-4  group-hover:stroke-red-500 duration-150' />
                                             </button>
                                         </td>
-                                        <td className='border-b-2 border-x-2 py-2 px-5'>
+                                        {/* <td className='border-b-2 border-x-2 py-2 px-5'>
                                             <button
                                                 className='w-full flex justify-center group '>
                                                 <EditIcon className='w-4 h-4 group-hover:stroke-blue-500 duration-150' />
                                             </button>
-                                        </td>
+                                        </td> */}
                                         <td className='border-b-2 border-x-2 py-2 px-10'>
                                             {code.code}
                                         </td>

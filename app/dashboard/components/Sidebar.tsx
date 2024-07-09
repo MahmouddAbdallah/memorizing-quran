@@ -35,14 +35,14 @@ const Sidebar = () => {
             ]
         },
         {
-            name: "الاحصص",
+            name: "الحصص",
             href: 'lessons',
-            subPage: [
-                {
-                    name: "الحصص الجديدة",
-                    href: 'view-new-lesson'
-                }
-            ]
+            // subPage: [
+            //     {
+            //         name: "الحصص الجديدة",
+            //         href: 'view-new-lesson'
+            //     }
+            // ]
         },
         {
             name: "المعلمين",
@@ -63,12 +63,12 @@ const Sidebar = () => {
                     <MenuIcon onClick={() => { setOpen(!open) }} open={open} />
                 </div>
                 <div className=' flex items-center gap-3'>
-                    <Link href={context?.user ? "/profile/schedule" : "/"}><LogoIcon className='w-11 h-11 stroke-[5px]' /></Link>
+                    <Link href={context?.user?.role == 'admin' ? "/" : "/profile/schedule"}><LogoIcon className='w-11 h-11 stroke-[5px]' /></Link>
                 </div>
             </div>
             <div className={`${open ? 'rtl' : 'ltr'} shadow-md py-10 w-56 lg:w-64 lg:flex flex-col items-center h-screen space-y-10 fixed lg:sticky top-0 z-50 bg-white`}>
                 <div className='flex justify-center'>
-                    <Link href={context?.user ? "/profile/schedule" : "/"}><LogoIcon className='' /></Link>
+                    <Link href={context?.user?.role == 'admin' ? "/" : "/profile/schedule"}><LogoIcon className='' /></Link>
                 </div>
                 <ul className='w-full'>
                     {items.map((item, i) => {

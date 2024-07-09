@@ -66,10 +66,10 @@ export async function DELETE(req: NextRequest, { params }: { params: Params }) {
         const user = await verifyAuth();
         if (user) {
             if (user.role != 'admin') return NextResponse.json({ message: 'Not allow' }, { status: 400 })
-            const plan = await prisma.plan.delete({
+            await prisma.plan.delete({
                 where: { id: id }
             })
-            return NextResponse.json({ plan, message: 'Delete plans successfully' }, { status: 200 })
+            return NextResponse.json({ message: 'Delete plans successfully' }, { status: 200 })
         } else {
             return NextResponse.json({ message: 'Not allow' }, { status: 400 })
         }

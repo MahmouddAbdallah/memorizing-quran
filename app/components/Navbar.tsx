@@ -17,7 +17,7 @@ const Navbar = () => {
                     <div className="hidden md:block spacex-2">
                         {
                             context?.user ?
-                                <Link href={'/profile'} className="flex items-center gap-2">
+                                <Link href={'/profile/schedule'} className="flex items-center gap-2">
                                     <PersonCircleIcon className="w-8 h-8" />
                                     <span>{context.user.name}</span>
                                 </Link>
@@ -37,10 +37,10 @@ const Navbar = () => {
                 <div className="flex gap-5">
                     <ul className="flex items-center gap-3">
                         {context?.user?.role == 'admin' && <li className="hidden md:block"><Link href={'/dashboard'}>لوحة التحكم</Link></li>}
-                        <li className="hidden md:block"><Link href={'/#previousWork'}> الاعمال السابقه</Link></li>
+                        {context?.user?.role == 'admin' && <li className="hidden md:block"><Link href={'/#previousWork'}> الاعمال السابقه</Link></li>}
                         <li className="hidden md:block"><Link href={'/'}>الصفحة الرئيسية</Link></li>
                     </ul>
-                    <Link className="block" href={context?.user ? "/profile/schedule" : "/"}>
+                    <Link className="block" href={context?.user?.role == 'admin' ? "/" : "/profile/schedule"}>
                         <LogoIcon className="w-16 h-16 md:w-16 md:h-16" />
                     </Link>
                 </div>

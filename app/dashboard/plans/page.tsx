@@ -1,11 +1,7 @@
-import axios from 'axios';
 import React from 'react'
 import PlansTable from './components/PlansTable';
-import { revalidatePath } from 'next/cache';
-// import { getPlans } from '@/app/utils/get-data/fetchPlan';
 
 export const dynamic = 'force-dynamic'
-
 const Plan = async () => {
     const getPlans = async () => {
         const res = await fetch(`${process.env.BASE_URL}/api/plan`, {
