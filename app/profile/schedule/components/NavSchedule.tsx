@@ -1,13 +1,10 @@
 'use client'
-import { useAppContext } from '@/app/context/appContext'
-import Link from 'next/link'
-import { usePathname, useSearchParams } from 'next/navigation'
 import React from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 const NavSchedule = () => {
     const pathname = usePathname();
-    const context = useAppContext()
-
     return (
         <nav className='mt-10'>
             <div className='flex gap-3 items-center w-full justify-center'>

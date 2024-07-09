@@ -1,4 +1,3 @@
-
 'use client'
 import { useContext, createContext, useState, useCallback, useEffect, } from 'react'
 import axios from 'axios'
@@ -10,22 +9,11 @@ type schType = {
 const SchContextProvider = createContext<undefined | schType>(undefined)
 
 
-const SchProvider = ({ children }: { children: React.ReactNode }) => {
+const SchProvider = ({ children, data }: { children: React.ReactNode, data: any }) => {
     const [lessons, setLessons] = useState([])
-    const fetchLessons = useCallback(async () => {
-        try {
-            if (!lessons.length) {
-                const { data } = await axios.get(`/api/lesson-weak`)
-                setLessons(data.lessons)
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    }, [lessons.length])
-
     useEffect(() => {
-        fetchLessons()
-    }, [fetchLessons])
+        setLessons(data.lessons)
+    }, [data])
     return (
         <SchContextProvider.Provider value={{ lessons, setLessons }}>
             {children}

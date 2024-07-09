@@ -2,7 +2,7 @@ import React from 'react'
 import UserInfo from './components/UserInfo'
 const Schedule = () => {
     return (
-        <div className='px-44'>
+        <div className='p-container w-full'>
             <UserInfo />
         </div>
     )

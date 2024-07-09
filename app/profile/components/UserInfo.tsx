@@ -21,7 +21,6 @@ const UserInfo = () => {
     const today = new Date().toISOString().split('T')[0];
     const router = useRouter()
 
-
     const onSubmit = handleSubmit(async (formData) => {
         try {
             const allData = { ...formData, date }
@@ -42,7 +41,6 @@ const UserInfo = () => {
         }
     })
 
-
     return (
         context?.user &&
         <form onSubmit={onSubmit}>
@@ -57,7 +55,6 @@ const UserInfo = () => {
                         <div className="w-full">
                             <input
                                 type="email"
-                                // value={context?.user?.email}
                                 {...register("email", {
                                     required: 'يرجي ادخال البريد الالكتروني',
                                     value: context?.user?.email

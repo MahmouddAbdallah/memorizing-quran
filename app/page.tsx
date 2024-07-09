@@ -13,7 +13,7 @@ const Home = () => {
   const token = cookies().get('token')?.value;
   const user = getRole(token)
   if (token) {
-    redirect(user.role == 'admin' ? '/dashboard' : '/profile/schedule')
+    redirect(user?.role == 'admin' ? '/dashboard' : '/profile/schedule')
   }
   return (
     <div>

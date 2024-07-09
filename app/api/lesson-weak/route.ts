@@ -1,11 +1,11 @@
 import prisma from '@/prisma/client';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { verifyAuth } from '@/lib/verfiyAuth';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const user = await verifyAuth()
+        const user = await verifyAuth(req)
         if (user) {
             if (user.role == 'admin' || user.role == 'teacher') {
                 const lessonWeak = await prisma.lessonWeak.createMany(
@@ -23,9 +23,9 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: error.message, message: 'There is error in server' }, { status: 400 })
     }
 }
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
     try {
-        const user = await verifyAuth()
+        const user = await verifyAuth(req)
         if (user) {
             let lessons: any;
             if (user.role != 'user') {
@@ -91,7 +91,10 @@ export async function GET(req: Request) {
                         },
                         session: {
                             where: {
-                                cancelled: false
+                                cancelled: false,
+                                createdAt: {
+
+                                }
                             },
                             select: {
                                 id: true,

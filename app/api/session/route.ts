@@ -1,8 +1,8 @@
 import prisma from '@/prisma/client';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { verifyAuth } from '@/lib/verfiyAuth';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
         const user = await verifyAuth()
@@ -23,6 +23,23 @@ export async function POST(req: Request) {
                 return NextResponse.json({ session, message: 'Create successfully' }, { status: 201 })
             }
             else return NextResponse.json({ message: 'Not allow' }, { status: 400 })
+        } else {
+            return NextResponse.json({ message: 'Not allow' }, { status: 400 })
+        }
+    } catch (error: any) {
+        return NextResponse.json({ error: error.message, message: 'There is error in server' }, { status: 400 })
+    }
+}
+export async function GET(req: NextRequest) {
+    try {
+        const user = await verifyAuth(req)
+        if (user) {
+            const session = await prisma.session.findFirst({
+                where: {
+                    userId: user.id
+                }
+            })
+            return NextResponse.json({ session }, { status: 200 })
         } else {
             return NextResponse.json({ message: 'Not allow' }, { status: 400 })
         }

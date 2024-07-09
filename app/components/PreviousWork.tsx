@@ -1,7 +1,20 @@
 'use client'
 import React, { useRef, useState } from 'react'
 const PreviousWork = () => {
-
+    const videosRef = useRef<any>([])
+    const handleOnPlay = (index: any) => {
+        videosRef.current.filter((e: any) => e != videosRef.current[index]).map((e: any) => e.pause())
+    }
+    const videos = [
+        {
+            id: 1,
+            video: './prev-1.mp4',
+        },
+        {
+            id: 2,
+            video: './prev-2.mp4',
+        },
+    ]
     return (
         <section id='previousWork' className='py-10 lg:py-20 p-container  bg-[#f7f8fa]'>
             <div className='pb-10'>
@@ -11,12 +24,21 @@ const PreviousWork = () => {
                 </div>
             </div>
             <div className='grid grid-cols-12 sm:gap-5 lg:gap-7 lg:pt-10 '>
-                <div className='col-span-12 md:col-span-6'>
-                    <video src='./prev-1.mp4' controls className='rounded-xl cursor-pointer border-2 border-black/50' />
-                </div>
-                <div className='col-span-12 md:col-span-6 mt-10 md:mt-0'>
-                    <video src='./prev-2.mp4' controls className='rounded-xl cursor-pointer border-2 border-black/50' />
-                </div>
+                {videos.map((vid, i) => {
+                    return <div key={vid.id} className='col-span-12 md:col-span-6'>
+                        <video
+                            onPlay={() => {
+                                handleOnPlay(i)
+                            }}
+                            key={vid.id}
+                            ref={(element: HTMLVideoElement | null) => {
+                                videosRef.current[i] = element;
+                            }}
+                            src={vid.video}
+                            controls
+                            className='rounded-xl cursor-pointer border-2 border-black/50' />
+                    </div>
+                })}
             </div>
         </section>
     )

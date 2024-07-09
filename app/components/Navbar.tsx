@@ -10,7 +10,7 @@ const Navbar = () => {
     const context = useAppContext();
 
     return (
-        !pathname?.includes("dashboard") &&
+        !(pathname?.includes("dashboard") || pathname?.includes("profile")) &&
         <nav className="sticky top-0 z-10">
             <div className="py-3 p-container flex items-center justify-between shadow-md bg-[#faffff]">
                 <div >

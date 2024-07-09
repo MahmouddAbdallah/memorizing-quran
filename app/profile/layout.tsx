@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Sidebar from "./components/Sidebar";
-
+import NavbarProfile from "./components/NavbarProfile";
 
 export const metadata: Metadata = {
     title: "Profile",
@@ -13,12 +13,15 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <div className="flex gap-10">
-            <div className="flex-1">
-                {children}
-            </div>
-            <div className="lg:block hidden">
-                <Sidebar />
+        <div>
+            <NavbarProfile />
+            <div className="lg:flex gap-10">
+                <div className="flex-1">
+                    {children}
+                </div>
+                <div className="lg:block hidden">
+                    <Sidebar />
+                </div>
             </div>
         </div>
     );
