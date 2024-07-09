@@ -2,7 +2,13 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
-
+import PopUpMessage from './PopUpMessage';
+enum Action {
+    ADD = 'اضف',
+    EDIT = 'تعدل',
+    DELETE = 'احذف',
+    LOGOUT = 'تسجيل الخروج'
+}
 const Logout = () => {
     const [loading, setLoading] = useState(false);
     const router = useRouter()
@@ -23,12 +29,22 @@ const Logout = () => {
             setLoading(false);
         }
     }
+    const [open, setOpen] = useState(false)
     return (
-        <button
-            onClick={logout}
-        >
-            تسجيل الخروج
-        </button>
+        <div className='w-full'>
+            <button
+                onClick={() => setOpen(true)}
+            >
+                تسجيل الخروج
+            </button>
+            {open && <PopUpMessage
+                setOpen={setOpen}
+                loading={loading}
+                handleAction={logout}
+                action={Action.LOGOUT}
+                msg='هل تريد تسجيل الخروج'
+            />}
+        </div>
     )
 }
 

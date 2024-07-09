@@ -37,7 +37,7 @@ const Navbar = () => {
                 <div className="flex gap-5">
                     <ul className="flex items-center gap-3">
                         {context?.user?.role == 'admin' && <li className="hidden md:block"><Link href={'/dashboard'}>لوحة التحكم</Link></li>}
-                        {context?.user?.role == 'admin' && <li className="hidden md:block"><Link href={'/#previousWork'}> الاعمال السابقه</Link></li>}
+                        <li className="hidden md:block"><Link href={'/#previousWork'}> الاعمال السابقه</Link></li>
                         <li className="hidden md:block"><Link href={'/'}>الصفحة الرئيسية</Link></li>
                     </ul>
                     <Link className="block" href={context?.user?.role == 'admin' ? "/" : "/profile/schedule"}>

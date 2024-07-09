@@ -7,6 +7,7 @@ enum Action {
     ADD = 'اضف',
     EDIT = 'تعدل',
     DELETE = 'احذف',
+    LOGOUT = 'تسجيل الخروج'
 }
 const PopUpMessage = ({
     handleAction,
@@ -44,7 +45,8 @@ const PopUpMessage = ({
                             disabled={loading}
                             className={clsx(
                                 'px-3 py-2 rounded-md text-white disabled:bg-black/20 disabled:px-10',
-                                { 'bg-red-500': action == Action.DELETE }
+                                { 'bg-red-500': action == Action.DELETE },
+                                { 'bg-red-500': action == Action.LOGOUT },
                             )}
                             onClick={handleAction}
                         >
