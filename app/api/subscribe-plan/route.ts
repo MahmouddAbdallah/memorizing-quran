@@ -93,14 +93,6 @@ export async function POST(req: NextRequest) {
                         }
                     }),
                 ])
-                await prisma.notification.create({
-                    data: {
-                        userId: user.id,
-                        type: 'CREATE',
-                        message: "لقد اشتركة في الدوره",
-                        subscribeId: bill.id
-                    }
-                })
                 return NextResponse.json({ bill, message: 'Create successfully' }, { status: 201 })
             } else {
                 return NextResponse.json({ message: 'مالك لا يكفي' }, { status: 400 })

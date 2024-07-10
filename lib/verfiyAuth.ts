@@ -25,7 +25,8 @@ export const verifyAuth = async (req?: NextRequest) => {
                     },
                     select: {
                         id: true,
-                        role: true
+                        role: true,
+                        name: true
                     }
                 })
                 if (!teacher) return false
@@ -37,7 +38,8 @@ export const verifyAuth = async (req?: NextRequest) => {
                     },
                     select: {
                         id: true,
-                        role: true
+                        role: true,
+                        name: true
                     }
                 })
                 if (!user) return false
@@ -57,7 +59,8 @@ export const verifyAuth = async (req?: NextRequest) => {
                         },
                         select: {
                             id: true,
-                            role: true
+                            role: true,
+                            name: true
                         }
                     })
                     if (!teacher) return false
@@ -69,7 +72,8 @@ export const verifyAuth = async (req?: NextRequest) => {
                         },
                         select: {
                             id: true,
-                            role: true
+                            role: true,
+                            name: true
                         }
                     })
                     if (!user) return false

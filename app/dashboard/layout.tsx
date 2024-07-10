@@ -22,13 +22,11 @@ export default function RootLayout({
         redirect('/');
     }
     return (
-        <Suspense fallback={"loading.........."}>
-            <div className="flex flex-col lg:flex-row">
-                <Sidebar />
-                <div className="flex-grow bg-[#cacaca25] lg:px-5">
-                    {children}
-                </div>
+        <div className="flex flex-col lg:flex-row">
+            <Sidebar />
+            <div className="flex-grow bg-[#cacaca25] lg:px-5">
+                {children}
             </div>
-        </Suspense>
+        </div>
     );
 }

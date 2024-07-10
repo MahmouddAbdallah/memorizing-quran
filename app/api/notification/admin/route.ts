@@ -8,12 +8,8 @@ export async function GET(req: NextRequest) {
         const user = await verifyAuth(req)
         if (user) {
             if (user.role == 'admin') {
-                const lessons = await prisma.notification.findMany({
-                    where: {
-                        role: user.role
-                    }
-                })
-                return NextResponse.json({ lessons, message: 'Fetch successfully' }, { status: 200 })
+                const notification = await prisma.adminNotification.findMany({})
+                return NextResponse.json({ notification }, { status: 200 })
             }
             else return NextResponse.json({ message: 'Not allow' }, { status: 400 })
         } else {

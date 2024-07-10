@@ -65,15 +65,14 @@ export async function POST(req: NextRequest) {
                 wait: waitTowMinute
             }
         })
-        await prisma.notification.create({
+
+        await prisma.adminNotification.create({
             data: {
-                userId: newUser.id,
-                message: "حساب جديد",
                 type: NotType.CREATE,
-                role: 'admin',
+                message: `لقد انشاء ${newUser.name} حساب جديد`,
+                userId: newUser.id,
             }
         })
-
         const sendMial = new Resend(process.env.API_SECRET_RESEND_KEY);
         await sendMial.emails.send({
             from: process.env.EMAILADDRESS as string,

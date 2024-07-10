@@ -1,7 +1,6 @@
 'use client'
 import Logout from '@/app/components/Logout'
 import { useAppContext } from '@/app/context/appContext'
-import useClickOutside from '@/app/hooks/useClickOutSide'
 import clsx from 'clsx'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'

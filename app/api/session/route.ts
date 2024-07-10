@@ -1,7 +1,11 @@
 import prisma from '@/prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAuth } from '@/lib/verfiyAuth';
-
+enum NotType {
+    CREATE = 'CREATE',
+    UPDATE = 'UPDATE',
+    DELETE = 'DELETE'
+}
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
@@ -18,6 +22,13 @@ export async function POST(req: NextRequest) {
                         teacherId: user.id,
                         lessonWeakId: body.lessonWeakId,
                         userId: body.userId
+                    }
+                })
+                await prisma.adminNotification.create({
+                    data: {
+                        type: NotType.CREATE,
+                        message: `. حصه ${user.name} لقد انشاء المعلم `,
+                        teacherId: user.id,
                     }
                 })
                 return NextResponse.json({ session, message: 'Create successfully' }, { status: 201 })

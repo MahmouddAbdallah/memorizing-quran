@@ -14,42 +14,44 @@ datasource db {
 }
 
 model User {
-  id            String          @id @default(auto()) @map("_id") @db.ObjectId
-  name          String
-  email         String
-  date          String
-  phone         String
-  country       String
-  gender        String
-  password      String
-  role          String          @default("user")
-  active        Boolean         @default(false)
-  createAt      DateTime        @default(now())
-  updateAt      DateTime        @updatedAt()
-  Verification  Verification[]
-  Lesson        Lesson[]
-  SubscribePlan SubscribePlan[]
-  Balance       Balance[]
-  Notification  Notification[]
-  Session       Session[]
+  id                String              @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  email             String
+  date              String
+  phone             String
+  country           String
+  gender            String
+  password          String
+  role              String              @default("user")
+  active            Boolean             @default(false)
+  createAt          DateTime            @default(now())
+  updateAt          DateTime            @updatedAt()
+  Verification      Verification[]
+  Lesson            Lesson[]
+  SubscribePlan     SubscribePlan[]
+  Balance           Balance[]
+  Notification      Notification[]
+  Session           Session[]
+  AdminNotification AdminNotification[]
 }
 
 model Teacher {
-  id           String         @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  email        String
-  date         String?
-  phone        String?
-  country      String?
-  gender       String?
-  password     String
-  active       Boolean        @default(true)
-  role         Role           @default(teacher)
-  createAt     DateTime       @default(now())
-  updateAt     DateTime       @updatedAt()
-  Lesson       Lesson[]
-  Notification Notification[]
-  Session      Session[]
+  id                String              @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  email             String
+  date              String?
+  phone             String?
+  country           String?
+  gender            String?
+  password          String
+  active            Boolean             @default(true)
+  role              Role                @default(teacher)
+  createAt          DateTime            @default(now())
+  updateAt          DateTime            @updatedAt()
+  Lesson            Lesson[]
+  Notification      Notification[]
+  Session           Session[]
+  AdminNotification AdminNotification[]
 }
 
 enum Role {
@@ -171,9 +173,21 @@ model Notification {
   teacherId     String?        @db.ObjectId()
   subscribeId   String?        @db.ObjectId()
   lessonWeakId  String?        @db.ObjectId()
-  role          String?
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @default(now())
+}
+
+model AdminNotification {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  isRead    Boolean  @default(false)
+  type      NotType
+  message   String?
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?  @db.ObjectId()
+  teacher   Teacher? @relation(fields: [teacherId], references: [id])
+  teacherId String?  @db.ObjectId()
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 enum NotType {

@@ -54,6 +54,10 @@ const Sidebar = () => {
                 }
             ]
         },
+        {
+            name: "الاشعارات",
+            href: 'notification',
+        },
     ]
 
     return (
