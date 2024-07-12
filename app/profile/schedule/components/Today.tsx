@@ -39,10 +39,12 @@ const Today = ({ data }: { data: any }) => {
     const weekdayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const day = weekdayNames[new Date().getDay()].toLocaleUpperCase();
     const dayLessons = schContext?.lessons.filter((e: any) => day == e.day)
+    console.log(dayLessons);
+
     return (
         <div>
             {
-                schContext?.lessons?.length ?
+                dayLessons?.length ?
                     <>
                         <h4 className='text-center py-5'>حصة اليوم {translateDays(day as any)} </h4>
                         <div className='text-center'>
@@ -62,7 +64,7 @@ const Today = ({ data }: { data: any }) => {
                         <LiveIcon className='w-32 h-32' />
                     </div>
                     {
-                        schContext?.lessons?.length ?
+                        (schContext?.lessons?.length || schContext?.isLesson) ?
                             <div>
                                 {(nextDay == today && comparisonResult && data.session.link) ?
                                     <Link

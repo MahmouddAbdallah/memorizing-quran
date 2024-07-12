@@ -33,7 +33,9 @@ const ScheduleDays = () => {
                         : <div className='w-full'>
                             <div className='w-full flex justify-center border-2 border-primary/70 rounded-lg'>
                                 <div className='px-5 py-10 text-center'>
-                                    <div className='text-2xl font-bold text-primary/70'>لا يوجد دراس</div>
+                                    <div className='text-2xl font-bold text-primary/70'>{schContext?.isLesson ?
+                                        'يتم مراجعة طلبك' :
+                                        'لا يوجد دراس'}</div>
                                 </div>
                             </div>
                         </div>

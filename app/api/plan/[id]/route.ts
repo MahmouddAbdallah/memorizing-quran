@@ -46,6 +46,8 @@ export async function GET(req: NextRequest, { params }: { params: Params }) {
     try {
         const { id } = params;
         const user = await verifyAuth(req);
+        console.log({ id, user });
+
         if (user) {
             const plan = await prisma.plan.findFirst({
                 where: { id: id }
@@ -63,7 +65,7 @@ export async function GET(req: NextRequest, { params }: { params: Params }) {
 export async function DELETE(req: NextRequest, { params }: { params: Params }) {
     try {
         const { id } = params;
-        const user = await verifyAuth();
+        const user = await verifyAuth(req);
         if (user) {
             if (user.role != 'admin') return NextResponse.json({ message: 'Not allow' }, { status: 400 })
             await prisma.plan.delete({

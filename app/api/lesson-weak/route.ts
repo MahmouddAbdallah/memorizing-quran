@@ -73,6 +73,7 @@ export async function GET(req: NextRequest) {
                 return NextResponse.json({ lessons, }, { status: 200 })
             }
             else {
+                const isLesson = await prisma.lesson.findFirst({ where: { userId: user.id } })
                 lessons = await prisma.lessonWeak.findMany({
                     where: {
                         lesson: {
@@ -110,7 +111,7 @@ export async function GET(req: NextRequest) {
                         }
                     }
                 })
-                return NextResponse.json({ lessons, }, { status: 200 })
+                return NextResponse.json({ lessons, isLesson: isLesson ? true : false }, { status: 200 })
             }
         } else {
             return NextResponse.json({ message: 'Not allow' }, { status: 400 })

@@ -13,11 +13,14 @@ export async function getPlans() {
 }
 
 export async function getPlan(id: string) {
-    const token = await cookies().get('token')?.value
-    const res = await fetch(`${process.env.BASE_URL}/api/plan/${id}?token=${token}`, {
+    const token = cookies().get('token')?.value;
+    const res = await fetch(`${process.env.BASE_URL}/api/plan/${id}`, {
         method: "GET",
         credentials: 'include',
-        cache: "reload"
+        cache: "reload",
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
     })
     if (!res.ok) {
         return await res.text()

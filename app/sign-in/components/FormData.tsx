@@ -20,10 +20,8 @@ const FormData = () => {
             toast.success(data.message)
             reset();
             setLoading(false);
-            router.push("/")
-            setTimeout(() => {
-                window.location.reload()
-            }, 2000)
+            router.push("/profile/schedule")
+            window.location.reload()
         } catch (error: any) {
             console.error(error);
             toast.error(error?.response?.data?.message || 'There is an error');
