@@ -71,3 +71,20 @@ body{
 input[type='date']::-webkit-calendar-picker-indicator {
   cursor: pointer;
 } 
+
+.delay{
+  animation: delay-anim 3s  ease-in-out;
+}
+@keyframes delay-anim {
+  0%{
+    display: block;
+    opacity: 100%;
+  }
+  70%{
+    opacity: 100%;
+  }
+  100%{
+    display: none;
+    opacity: 100%;
+  }
+}

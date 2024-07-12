@@ -25,7 +25,7 @@ const PopUpMessage = ({
     const eleRef = useClickOutside(() => setOpen(false))
     return (
         <div className='fixed h-full w-full top-0 left-0 flex justify-center items-center bg-black/20 z-50'>
-            <div ref={eleRef} className='w-full md:w-[550px] bg-white rounded-md'>
+            <div ref={eleRef} className='w-full md:w-[550px] bg-white rounded-md overflow-hidden'>
                 <div className='space-y-3'>
                     <div className='w-full flex justify-between py-3 border-b-2 px-2'>
                         <button
@@ -40,7 +40,7 @@ const PopUpMessage = ({
                     <div className='py-5 px-3'>
                         <p className='text-right'>{msg}</p>
                     </div>
-                    <div className='flex justify-start px-3 pb-2 gap-3'>
+                    <div className='flex justify-start px-3 py-2 gap-3 bg-gray-100'>
                         <button
                             disabled={loading}
                             className={clsx(

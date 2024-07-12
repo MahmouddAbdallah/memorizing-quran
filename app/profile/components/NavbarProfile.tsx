@@ -51,7 +51,15 @@ const NavbarProfile = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex gap-5">
+                <div className="flex gap-5 items-center">
+                    <div className='flex gap-2'>
+                        <Link className='block' href={'/plans'}>
+                            الخطط
+                        </Link>
+                        <Link className='block' href={'/profile/chat'}>
+                            الرسائل
+                        </Link>
+                    </div>
                     <Link className="block" href={context?.user?.role == 'admin' ? "/" : "/profile/schedule"}>
                         <LogoIcon className="w-16 h-16 md:w-16 md:h-16" />
                     </Link>

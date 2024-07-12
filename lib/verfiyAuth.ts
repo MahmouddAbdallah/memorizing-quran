@@ -86,7 +86,7 @@ export const verifyAuth = async (req?: NextRequest) => {
     }
 }
 
-export const getRole = (token: any) => {
+export const getRole = (token?: any) => {
     if (token) {
         const decode = jwt.verify(token as string, process.env.JWT_SECRET as string);
         const id = (decode as JwtPayload).id as string

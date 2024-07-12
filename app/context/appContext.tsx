@@ -1,6 +1,7 @@
 'use client'
-import { createContext, useContext, } from 'react'
+import { createContext, useContext, useEffect, useState, } from 'react'
 import { Toaster } from 'react-hot-toast'
+import { socket } from '../utils/socket'
 interface UserInterface {
     id: string,
     name: string,
@@ -15,12 +16,45 @@ interface UserInterface {
 }
 type AppContextTypes = {
     user: UserInterface | null,
+    unReadNotification: any
 }
 const appContext = createContext<AppContextTypes | undefined>(undefined);
 
-const AppContextProvider = ({ children, user }: { children: React.ReactNode, user: UserInterface }) => {
+const AppContextProvider = ({ children, user, unReadNotification }: { children: React.ReactNode, user: UserInterface, unReadNotification: any }) => {
+    const [isConnected, setIsConnected] = useState(false);
+    const [transport, setTransport] = useState("N/A");
+
+    useEffect(() => {
+        if (socket.connected) {
+            onConnect();
+        }
+
+        function onConnect() {
+            setIsConnected(true);
+            setTransport(socket.io.engine.transport.name);
+
+            socket.io.engine.on("upgrade", (transport) => {
+                setTransport(transport.name);
+            });
+        }
+
+        function onDisconnect() {
+            setIsConnected(false);
+            setTransport("N/A");
+        }
+
+        socket.on("connect", onConnect);
+        socket.on("disconnect", onDisconnect);
+        socket.emit('add-user', user?.id)
+
+        return () => {
+            socket.off("connect", onConnect);
+            socket.off("disconnect", onDisconnect);
+        };
+    }, [user]);
+
     return (
-        <appContext.Provider value={{ user }}>
+        <appContext.Provider value={{ user, unReadNotification }}>
             {children}
             <Toaster position='bottom-right' toastOptions={{ 'duration': 3000 }} />
         </appContext.Provider>

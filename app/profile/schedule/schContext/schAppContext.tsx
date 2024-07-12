@@ -12,7 +12,9 @@ const SchContextProvider = createContext<undefined | schType>(undefined)
 const SchProvider = ({ children, data }: { children: React.ReactNode, data: any }) => {
     const [lessons, setLessons] = useState([])
     useEffect(() => {
-        setLessons(data.lessons)
+        if (data?.lessons) {
+            setLessons(data.lessons)
+        }
     }, [data])
     return (
         <SchContextProvider.Provider value={{ lessons, setLessons }}>

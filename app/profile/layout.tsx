@@ -19,9 +19,7 @@ export default function RootLayout({
                 <div className="flex-1">
                     {children}
                 </div>
-                <div className="lg:block hidden">
-                    <Sidebar />
-                </div>
+                <Sidebar />
             </div>
         </div>
     );

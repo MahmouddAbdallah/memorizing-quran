@@ -6,6 +6,8 @@ export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
         const user = await verifyAuth(req)
+        console.log({ user });
+
         if (user) {
             if (user.role == 'admin' || user.role == 'teacher') {
                 const lessonWeak = await prisma.lessonWeak.createMany(
@@ -26,6 +28,8 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
     try {
         const user = await verifyAuth(req)
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
         if (user) {
             let lessons: any;
             if (user.role != 'user') {
@@ -54,7 +58,10 @@ export async function GET(req: NextRequest) {
                         },
                         session: {
                             where: {
-                                cancelled: false
+                                cancelled: false,
+                                createdAt: {
+                                    gte: yesterday
+                                }
                             },
                             select: {
                                 id: true,
@@ -93,7 +100,7 @@ export async function GET(req: NextRequest) {
                             where: {
                                 cancelled: false,
                                 createdAt: {
-
+                                    gte: yesterday
                                 }
                             },
                             select: {

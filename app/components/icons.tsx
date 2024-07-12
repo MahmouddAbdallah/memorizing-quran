@@ -56,6 +56,13 @@ export const GroupIcon: React.FC<ClassNameInterface> = ({ className }) => {
         </svg>
     )
 }
+export const ThreeDotsIcon: React.FC<ClassNameInterface> = ({ className }) => {
+    return (
+        <svg stroke="currentColor" fill="currentColor" className={className} viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"></path>
+        </svg>
+    )
+}
 export const AwardIcon: React.FC<ClassNameInterface> = ({ className }) => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="92" className={className} height="91" viewBox="0 0 92 91" fill="none">
@@ -249,6 +256,13 @@ export const PlusIcon = ({ className }: { className: string }) => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+    )
+}
+export const SendIcon = ({ className }: { className: string }) => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="m3 3 3 9-3 9 19-9Z" /><path d="M6 12h16" />
         </svg>
     )
 }

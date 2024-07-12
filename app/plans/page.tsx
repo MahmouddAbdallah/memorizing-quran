@@ -3,15 +3,21 @@ import Image from "next/image";
 import Link from "next/link";
 import LoadingCard from '../components/LoadingCard';
 import { CheckIcon } from '../components/icons';
+import { cookies } from 'next/headers';
 
 const page = async () => {
     try {
+        const token = cookies().get('token')?.value
         const fetchPlans = async () => {
             try {
                 const res = await fetch(`http://localhost:3000/api/plan`, {
                     method: "GET",
                     credentials: 'include',
-                    next: { revalidate: 100 }
+                    next: { revalidate: 100 },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${token}`
+                    }
                 })
 
                 if (!res.ok) {

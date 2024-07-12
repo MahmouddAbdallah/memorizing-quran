@@ -29,7 +29,7 @@ const LessonTable = ({ lessons }: { lessons: any }) => {
                         return (
                             <tr key={lesson.id} className='text-center'>
                                 <td className='border-b-2 border-x-2 py-2 px-10 text-center'>
-                                    {lesson.LessonWeak ?
+                                    {lesson.LessonWeak?.length ?
                                         <div className='flex justify-center'>
                                             <button
                                                 className='group w-32 flex justify-center'
@@ -48,7 +48,8 @@ const LessonTable = ({ lessons }: { lessons: any }) => {
                                                 <EditIcon className='hidden -translate-y-1 group-hover:block group-hover:translate-y-0 w-4 h-4 duration-150 stroke-blue-500' />
                                             </button>
                                         </div>
-                                        : <button onClick={() => {
+                                        :
+                                        <button onClick={() => {
                                             setopenDay(true)
                                             setLessonId(lesson.id)
                                             setLessonData({

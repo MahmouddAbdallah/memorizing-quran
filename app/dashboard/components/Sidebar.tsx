@@ -94,8 +94,21 @@ const Sidebar = () => {
                                                         {href == item.href ? <ArrowUp className='w-5 h-5' /> : <ArrowDown className='w-5 h-5' />}
                                                     </div>
                                                     :
-                                                    <div />
+                                                    <div>
+                                                        {
+                                                            (item.href == 'notification' && context?.unReadNotification)
+                                                                ?
+                                                                <div>
+                                                                    <div className='size-5 rounded-full bg-blue-500 flex items-center justify-center text-xs' >
+                                                                        <span className='pt-[2px]'>
+                                                                            {context?.unReadNotification}
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                : ""}
+                                                    </div>
                                             }
+
                                             <span>{item.name}</span>
                                         </div>
                                     </Link>

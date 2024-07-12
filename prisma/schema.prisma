@@ -195,3 +195,34 @@ enum NotType {
   UPDATE
   DELETE
 }
+
+type Sender {
+  id   String
+  role String
+}
+
+type Receiver {
+  id   String
+  role String
+}
+
+model Chat {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  sender    Sender
+  receiver  Receiver
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  Message   Message[]
+}
+
+model Message {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  chatId    String   @db.ObjectId
+  sender    Sender
+  receiver  Receiver
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}

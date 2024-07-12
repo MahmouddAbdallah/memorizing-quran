@@ -32,7 +32,6 @@ const AddDays = ({ setOpen, lessonWeekData, lessonId, session }: {
             setLoading(false);
         }
     }
-    console.log(data);
 
     const updateWeakDays = async () => {
         try {
@@ -53,8 +52,6 @@ const AddDays = ({ setOpen, lessonWeekData, lessonId, session }: {
                 const formattedTime = `${hour}:${minutes} ${period}`;
                 return { ...item, timeSlot: formattedTime }
             })
-            console.log(newData);
-
             const res = await axios.put('/api/lesson-weak', { data: newData, oldData: lessonWeekData })
             toast.success(res.data.message as string)
             setOpen(false)
@@ -146,19 +143,38 @@ const AddDays = ({ setOpen, lessonWeekData, lessonId, session }: {
                         </div>
                         <div className='px-2 py-3'>
                             {
-                                switchBtn ?
+                                lessonWeekData?.length ?
+                                    <>
+                                        {
+                                            switchBtn ?
+                                                <button
+                                                    className='bg-blue-500 text-white disabled:bg-blue-300 w-full py-2 rounded-md flex items-center justify-center'
+                                                    onClick={() => {
+                                                        setData([])
+                                                        setSwitchBtn(!switchBtn)
+                                                    }}>
+                                                    <span>
+                                                        تعديل
+                                                    </span>
+                                                </button> :
+                                                <button
+                                                    onClick={updateWeakDays}
+                                                    disabled={!(limit == data?.length)}
+                                                    className='bg-blue-500 disabled:bg-blue-300 w-full py-2 rounded-md flex items-center justify-center'>
+                                                    <span className='text-white'>
+                                                        {loading ?
+                                                            <LoadingIcon className='w-6 h-6 animate-spin' /> :
+                                                            <span>
+                                                                حفظ
+                                                            </span>
+                                                        }
+                                                    </span>
+                                                </button>
+                                        }
+                                    </>
+                                    :
                                     <button
-                                        className='bg-blue-500 text-white disabled:bg-blue-300 w-full py-2 rounded-md flex items-center justify-center'
-                                        onClick={() => {
-                                            setData([])
-                                            setSwitchBtn(!switchBtn)
-                                        }}>
-                                        <span>
-                                            تعديل
-                                        </span>
-                                    </button> :
-                                    <button
-                                        onClick={lessonWeekData ? updateWeakDays : createWeakDays}
+                                        onClick={createWeakDays}
                                         disabled={!(limit == data?.length)}
                                         className='bg-blue-500 disabled:bg-blue-300 w-full py-2 rounded-md flex items-center justify-center'>
                                         <span className='text-white'>

@@ -43,7 +43,7 @@ export default async function RootLayout({
   return (
     <html lang="ar">
       <body className={inter.className}>
-        <AppContextProvider user={data?.user}>
+        <AppContextProvider user={data?.user} unReadNotification={data?.unReadNotification}>
           <Navbar />
           <Toaster position="bottom-right" />
           {children}

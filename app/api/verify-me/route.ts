@@ -34,7 +34,11 @@ export async function GET(req: NextRequest) {
                 }
             })
             if (!teacher) NextResponse.json({ message: 'Please Sign up' }, { status: 400 })
-            return NextResponse.json({ message: 'Successfully get user', user: teacher }, { status: 200 })
+            let unReadNotification = 0;
+            if (teacher?.role == 'admin') {
+                unReadNotification = await prisma.adminNotification.count({ where: { isRead: false } })
+            }
+            return NextResponse.json({ message: 'Successfully get user', user: teacher, unReadNotification }, { status: 200 })
 
         } else {
             const user = await prisma.user.findUnique({

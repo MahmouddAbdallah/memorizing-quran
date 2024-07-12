@@ -4,15 +4,19 @@ import PlansTable from './components/PlansTable';
 export const dynamic = 'force-dynamic'
 const Plan = async () => {
     const getPlans = async () => {
-        const res = await fetch(`${process.env.BASE_URL}/api/plan`, {
-            method: "GET",
-            credentials: 'include',
-            cache: "no-cache",
-        })
-        if (!res.ok) {
-            return new Error(await res.text() as string)
+        try {
+            const res = await fetch(`${process.env.BASE_URL}/api/plan`, {
+                method: "GET",
+                credentials: 'include',
+                cache: "no-cache",
+            })
+            if (!res.ok) {
+                return new Error(await res.text() as string)
+            }
+            return res.json()
+        } catch (error) {
+            console.error(error);
         }
-        return res.json()
     }
     const data = await getPlans()
 

@@ -26,7 +26,7 @@ const page = async () => {
     return (
         <div className=''>
             <div className='text-center pt-20 pb-10'>
-                <h6 className='text-xl font-medium'> الخطط</h6>
+                <h6 className='text-xl font-medium'> الحصص</h6>
             </div>
             <div className='relative overflow-x-auto bg-white py-10 lg:px-5 lg:rounded-md w-screen lg:w-[calc(100vw-310px)]'>
                 <LessonTable lessons={data.lessons as any} />

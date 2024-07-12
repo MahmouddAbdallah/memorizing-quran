@@ -1,8 +1,6 @@
 import prisma from '@/prisma/client';
 import { NextResponse, NextRequest } from 'next/server';
 import { verifyAuth } from '@/lib/verfiyAuth';
-import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt'
 
 interface bodyInterface {
@@ -49,6 +47,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ message: 'Error in server', error: error.message }, { status: 400 })
     }
 }
+
 
 export async function GET(req: NextRequest) {
     try {
