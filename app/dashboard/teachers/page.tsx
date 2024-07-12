@@ -1,6 +1,7 @@
 import React from 'react'
 import Table from './components/Table'
 import { cookies } from 'next/headers'
+export const dynamic = 'force-dynamic'
 
 const page = async () => {
     const getTeachers = async () => {

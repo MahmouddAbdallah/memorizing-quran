@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react'
 
 const NavbarProfile = () => {
     const context = useAppContext()
-    const setUnread = useStore((state: any) => state.setUnread)
+    // const setUnread = useStore((state: any) => state.setUnread)
     const unRead = useStore((state: any) => state.unRead)
 
     const [open, setOpen] = useState(false)
@@ -32,14 +32,14 @@ const NavbarProfile = () => {
         },
     ]
     const eleRef = useClickOutside(() => setOpen(false))
-    useEffect(() => {
-        async () => {
-            const { data } = await axios.get('/api/messages/unread-msg')
-            console.log(data);
+    // useEffect(() => {
+    //     async () => {
+    //         const { data } = await axios.get('/api/messages/unread-msg')
+    //         console.log(data);
 
-            setUnread(data.count)
-        }
-    }, [setUnread])
+    //         setUnread(data.count)
+    //     }
+    // }, [setUnread])
     // console.log(unRead);
 
     return (

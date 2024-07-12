@@ -4,6 +4,7 @@ import Link from "next/link";
 import LoadingCard from '../components/LoadingCard';
 import { CheckIcon } from '../components/icons';
 import { cookies } from 'next/headers';
+export const dynamic = 'force-dynamic'
 
 const page = async () => {
     try {
