@@ -6,10 +6,14 @@ import clsx from "clsx";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { useRouter } from 'next/navigation';
+
 
 export default function FormData({ planId }: { planId: string }) {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [loading, setLoading] = useState(false)
+    const router = useRouter()
+
     const buyLesson = handleSubmit(async (formData) => {
         try {
             setLoading(true)
@@ -18,6 +22,8 @@ export default function FormData({ planId }: { planId: string }) {
                 code: formData.code
             })
             toast.success(data?.message);
+            router.push("/profile/schedule")
+            setTimeout(() => { window.location.reload() }, 1000)
             reset()
             setLoading(false)
         } catch (error: any) {

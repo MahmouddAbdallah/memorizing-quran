@@ -5,8 +5,8 @@ import { verifyAuth } from '@/lib/verfiyAuth';
 
 export async function GET(req: NextRequest) {
     try {
-        const user = await verifyAuth(req);
-        if (!user)
+        const userVerify = await verifyAuth(req);
+        if (!userVerify)
             return NextResponse.json({ message: 'Not Allow' }, { status: 400 })
 
         const chats = await prisma.chat.findMany({
@@ -14,22 +14,23 @@ export async function GET(req: NextRequest) {
                 OR: [
                     {
                         sender: {
-                            id: user.id,
-                            role: user.role == 'admin' ? 'teacher' : user.role
+                            id: userVerify.id,
+                            role: userVerify.role == 'admin' ? 'teacher' : userVerify.role
                         }
                     },
                     {
                         receiver: {
-                            id: user.id,
-                            role: user.role == 'admin' ? 'teacher' : user.role
+                            id: userVerify.id,
+                            role: userVerify.role == 'admin' ? 'teacher' : userVerify.role
                         }
                     }
                 ]
-            }
+            }, orderBy: {
+                updatedAt: 'desc'
+            },
         })
         const ch = chats.map(async (chat) => {
-
-            if (chat.receiver.id == user.id && (chat.receiver.role == 'teacher' || chat.receiver.role == 'admin')) {
+            if (chat.receiver.id == userVerify.id && (chat.receiver.role == 'teacher' || chat.receiver.role == 'admin')) {
                 const user = await prisma.teacher.findUnique({
                     where: { id: chat.sender.id },
                     select: {
@@ -38,13 +39,36 @@ export async function GET(req: NextRequest) {
                         role: true
                     }
                 })
+                const unReadMessage = await prisma.message.count({
+                    where: {
+                        chatId: chat.id,
+                        isRead: false,
+                        receiver: {
+                            is: {
+                                id: userVerify.id
+                            }
+                        }
+                    }
+                })
                 return {
                     user,
                     id: chat.id,
-                    updatedAt: chat.updatedAt
+                    updatedAt: chat.updatedAt,
+                    unReadMessage
                 }
             }
-            else if (chat.receiver.id == user.id && (chat.receiver.role == 'user')) {
+            else if (chat.receiver.id == userVerify.id && (chat.receiver.role == 'user')) {
+                const unReadMessage = await prisma.message.count({
+                    where: {
+                        chatId: chat.id,
+                        isRead: false,
+                        receiver: {
+                            is: {
+                                id: userVerify.id
+                            }
+                        }
+                    }
+                })
                 const user = await prisma.teacher.findUnique({
                     where: { id: chat.sender.id },
                     select: {
@@ -56,10 +80,22 @@ export async function GET(req: NextRequest) {
                 return {
                     user,
                     id: chat.id,
-                    updatedAt: chat.updatedAt
+                    updatedAt: chat.updatedAt,
+                    unReadMessage
                 }
             }
             else {
+                const unReadMessage = await prisma.message.count({
+                    where: {
+                        chatId: chat.id,
+                        isRead: false,
+                        receiver: {
+                            is: {
+                                id: userVerify.id
+                            }
+                        }
+                    }
+                })
                 const user = await prisma.user.findUnique({
                     where: { id: chat.receiver.id },
                     select: {
@@ -71,7 +107,8 @@ export async function GET(req: NextRequest) {
                 return {
                     user,
                     id: chat.id,
-                    updatedAt: chat.updatedAt
+                    updatedAt: chat.updatedAt,
+                    unReadMessage
                 }
             }
         })

@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { socket } from '../../../utils/socket'
 import { useState } from 'react'
-
+import { useRouter, usePathname } from 'next/navigation'
 const TypeMessage = ({ searchParams }: {
     searchParams: {
         chatId: string,
@@ -18,13 +18,17 @@ const TypeMessage = ({ searchParams }: {
     const { register, handleSubmit, formState: { isValid }, reset } = useForm();
     const setMessage = useStore((state: any) => state.setMessage)
     const [loading, setLoading] = useState(false)
+    const router = useRouter();
+    const pathname = usePathname()
 
     const onSubmit = handleSubmit(async (formData) => {
         try {
-            const { data } = await axios.post(`/api/messages/message?userId=${searchParams.userId}&userRole=${searchParams.userRole}&chatId=${searchParams.chatId}`
+            reset()
+            const { data } = await axios.post(`/api/messages/message?userId=${searchParams.userId}&userRole=${searchParams.userRole}&chatId=${searchParams.chatId ? searchParams.chatId : ""}`
                 , formData)
             setMessage(data.message)
             if (data.chat) {
+                router.push(`${pathname}?chatId=${data.chat.id}`)
                 socket.emit('send-msg', {
                     message: data.message,
                     chat: data.chat,
@@ -36,7 +40,6 @@ const TypeMessage = ({ searchParams }: {
                     receiverId: searchParams.userId
                 })
             }
-            reset()
         } catch (error: any) {
             console.error(error);
             toast.error(error?.response?.data?.message || 'There is an error');
@@ -47,6 +50,7 @@ const TypeMessage = ({ searchParams }: {
         <div className='w-full pt-2'>
             <form onSubmit={onSubmit} className="w-full flex gap-3">
                 <button
+                    type='submit'
                     disabled={!isValid || loading}
                 >
                     <SendIcon className={clsx(

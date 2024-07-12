@@ -5,25 +5,39 @@ import { useStore } from '@/lib/store'
 import clsx from 'clsx'
 import React, { useEffect, useRef } from 'react'
 
-const BodyChat = ({ messages }: { messages: any }) => {
+const BodyChat = ({ messages, searchParams }: {
+    messages: any, searchParams: {
+        chatId: string,
+        userId: string,
+        userRole: string
+    }
+}) => {
     const setMessages = useStore((state: any) => state.setMessages)
     const setMessage = useStore((state: any) => state.setMessage)
+    const setUnReadMessageCount = useStore((state: any) => state.setUnReadMessageCount)
     const context = useAppContext()
     const chatRef = useRef<HTMLDivElement | null>(null)
     const msg = useStore((state: any) => state.messages)
 
     useEffect(() => {
         const handleMessage = (data: any) => {
-            setMessage(data.message)
+            if (searchParams.userId == data.message.sender.id) {
+                setMessage(data.message)
+            }
+            if (searchParams.chatId != data.message.chatId) {
+                setUnReadMessageCount(data.message.chatId)
+            }
         }
         socket.on('receive-msg', handleMessage)
         return () => {
             socket.off('receive-msg', handleMessage)
         }
-    }, [setMessage])
+    }, [searchParams, setMessage, setUnReadMessageCount])
 
     useEffect(() => {
-        setMessages(messages)
+        if (messages?.length) {
+            setMessages(messages)
+        }
     }, [messages, setMessages])
     useEffect(() => {
         if (chatRef.current) {

@@ -17,8 +17,9 @@ const SchProvider = ({ children, data }: { children: React.ReactNode, data: any 
         if (data?.lessons) {
             setLessons(data.lessons)
         }
-        setIsLesson(data.isLesson)
+        setIsLesson(data?.isLesson)
     }, [data])
+
     return (
         <SchContextProvider.Provider value={{ lessons, setLessons, isLesson }}>
             {children}

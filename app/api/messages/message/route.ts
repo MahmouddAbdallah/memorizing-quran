@@ -42,6 +42,7 @@ export async function POST(req: NextRequest) {
                         sender: true,
                         receiver: true,
                         createdAt: true,
+                        chatId: true
                     }
                 }),
                 prisma.chat.update({
@@ -146,6 +147,7 @@ export async function POST(req: NextRequest) {
                         sender: true,
                         receiver: true,
                         createdAt: true,
+                        chatId: true
                     }
                 })
                 let receiver;
@@ -220,6 +222,32 @@ export async function GET(req: NextRequest) {
         })
         msgs = await Promise.all(msgs);
         return NextResponse.json({ messages: msgs }, { status: 200 })
+    } catch (error: any) {
+        return NextResponse.json({ message: 'Error in server', error: error.message }, { status: 400 })
+    }
+}
+export async function PUT(req: NextRequest) {
+    try {
+        const url = new URL(req.url);
+        const query = new URLSearchParams(url.search);
+        const chatId = query.get('chatId') as string;
+        const user = await verifyAuth();
+        if (!user) return;
+        await prisma.message.updateMany({
+            where: {
+                chatId: chatId,
+                isRead: false,
+                receiver: {
+                    is: {
+                        id: user.id
+                    }
+                }
+            },
+            data: {
+                isRead: true
+            }
+        })
+        return NextResponse.json({ message: 'successfully updated!!' }, { status: 200 })
     } catch (error: any) {
         return NextResponse.json({ message: 'Error in server', error: error.message }, { status: 400 })
     }

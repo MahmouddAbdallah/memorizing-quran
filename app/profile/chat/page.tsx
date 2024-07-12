@@ -48,19 +48,22 @@ const page = async ({ searchParams }: {
             console.error(error);
         }
     }
-    const resChat = await fetchChats()
+    let resChat = await fetchChats()
     let res;
-    if (searchParams.userId) {
+    if (searchParams.chatId) {
         res = await fetchMessages();
     }
     return (
         <div className='flex gap-3 p-container h-[calc(100svh-123px)]'>
             <div className=' w-full h-full flex flex-col justify-between pt-3'>
-                {searchParams.userId &&
+                {searchParams.userId ?
                     <>
-                        <BodyChat messages={res?.data?.messages} />
+                        <BodyChat messages={res?.data?.messages} searchParams={searchParams} />
                         <TypeMessage searchParams={searchParams} />
-                    </>
+                    </> :
+                    <div className='w-full h-full border shadow-md rounded-xl flex justify-center items-center'>
+                        {resChat?.data?.chats?.length ? <span>اختار معلم او طالب</span> : <span>لا يوجد رسائل</span>}
+                    </div>
                 }
             </div>
             <Chat
