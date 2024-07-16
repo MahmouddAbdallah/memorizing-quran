@@ -14,7 +14,6 @@ const BodyChat = ({ messages, searchParams }: {
 }) => {
     const setMessages = useStore((state: any) => state.setMessages)
     const setMessage = useStore((state: any) => state.setMessage)
-    const setUnReadMessageCount = useStore((state: any) => state.setUnReadMessageCount)
     const context = useAppContext()
     const chatRef = useRef<HTMLDivElement | null>(null)
     const msg = useStore((state: any) => state.messages)
@@ -24,15 +23,12 @@ const BodyChat = ({ messages, searchParams }: {
             if (searchParams.userId == data.message.sender.id) {
                 setMessage(data.message)
             }
-            if (searchParams.chatId != data.message.chatId) {
-                setUnReadMessageCount(data.message.chatId)
-            }
         }
         socket.on('receive-msg', handleMessage)
         return () => {
-            socket.off('receive-msg', handleMessage)
+            socket.off('receive-msg')
         }
-    }, [searchParams, setMessage, setUnReadMessageCount])
+    }, [searchParams, setMessage])
 
     useEffect(() => {
         if (messages?.length) {
@@ -46,7 +42,7 @@ const BodyChat = ({ messages, searchParams }: {
     }, [msg]);
 
     return (
-        <div ref={chatRef} className='space-y-3  h-[calc(100svh-(123px+42px))] overflow-auto'>
+        <div ref={chatRef} className='space-y-3  h-[calc(100svh-143px)] lg:h-[calc(100svh-(123px+63px))] overflow-auto'>
             {msg?.map((msg: any) =>
                 <div key={msg.id}>
                     <div className={clsx(

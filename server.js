@@ -30,6 +30,7 @@ app.prepare().then(() => {
                     socket.to(online).emit('receive-msg', { message, chat })
                 } else {
                     socket.to(online).emit('receive-msg', { message })
+                    socket.to(online).emit('notfiy', { count: 1, chatId: message.chatId })
                 }
             }
         })

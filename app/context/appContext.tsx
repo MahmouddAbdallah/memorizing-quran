@@ -2,6 +2,7 @@
 import { createContext, useContext, useEffect, useState, } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { socket } from '../utils/socket'
+import { useStore } from '@/lib/store'
 interface UserInterface {
     id: string,
     name: string,
@@ -23,6 +24,7 @@ const appContext = createContext<AppContextTypes | undefined>(undefined);
 const AppContextProvider = ({ children, user, unReadNotification }: { children: React.ReactNode, user: UserInterface, unReadNotification: any }) => {
     const [isConnected, setIsConnected] = useState(false);
     const [transport, setTransport] = useState("N/A");
+    const setUnReadMessageCount = useStore((state: any) => state.setUnReadMessageCount)
 
     useEffect(() => {
         if (socket.connected) {
@@ -52,7 +54,15 @@ const AppContextProvider = ({ children, user, unReadNotification }: { children: 
             socket.off("disconnect", onDisconnect);
         };
     }, [user]);
-
+    useEffect(() => {
+        const handleMessage = (data: any) => {
+            setUnReadMessageCount(data.chatId)
+        }
+        socket.on('notfiy', handleMessage)
+        return () => {
+            socket.off('notfiy', handleMessage)
+        }
+    }, [setUnReadMessageCount])
     return (
         <appContext.Provider value={{ user, unReadNotification }}>
             {children}

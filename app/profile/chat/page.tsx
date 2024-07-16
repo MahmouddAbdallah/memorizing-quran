@@ -54,23 +54,27 @@ const page = async ({ searchParams }: {
         res = await fetchMessages();
     }
     return (
-        <div className='flex gap-3 p-container h-[calc(100svh-123px)]'>
-            <div className=' w-full h-full flex flex-col justify-between pt-3'>
-                {searchParams.userId ?
-                    <>
-                        <BodyChat messages={res?.data?.messages} searchParams={searchParams} />
-                        <TypeMessage searchParams={searchParams} />
-                    </> :
-                    <div className='w-full h-full border shadow-md rounded-xl flex justify-center items-center'>
-                        {resChat?.data?.chats?.length ? <span>اختار معلم او طالب</span> : <span>لا يوجد رسائل</span>}
-                    </div>
-                }
+        <div className='lg:px-20 xl:px-32'>
+            <div className='w-full lg:flex gap-3'>
+                <div className='w-full flex flex-col justify-between'>
+                    {searchParams.userId ?
+                        <div className='pl-2'>
+                            <BodyChat messages={res?.data?.messages} searchParams={searchParams} />
+                            <TypeMessage searchParams={searchParams} />
+                        </div> :
+                        <div className='  w-full h-full border shadow-md rounded-xl hidden lg:flex justify-center items-center'>
+                            {resChat?.data?.chats?.length ? <span>اختار معلم او طالب</span> : <span>لا يوجد رسائل</span>}
+                        </div>
+                    }
+                </div>
+                <div className={searchParams.userId ? "hidden lg:block" : ""}>
+                    <Chat
+                        data={resChat?.data}
+                        error={resChat?.error}
+                        searchParams={searchParams}
+                    />
+                </div>
             </div>
-            <Chat
-                data={resChat?.data}
-                error={resChat?.error}
-                searchParams={searchParams}
-            />
             {res?.error && <ToastServerError error={res.error} />}
         </div>
     )

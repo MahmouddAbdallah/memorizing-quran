@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react'
-import { MenuIcon } from './icons'
+import { MenuIcon, PersonCircleIcon } from './icons'
 import useClickOutside from '../hooks/useClickOutSide'
 import Link from 'next/link'
 import { useAppContext } from '../context/appContext'
@@ -23,6 +23,14 @@ const Menu = () => {
                 <div className='text-gray-800 font-[500] bg-primary/50 h-full'>
                     <div className="flex h-full pb-10 items-center flex-col justify-between">
                         <div className="w-full">
+                            <Link
+                                onClick={handleopen}
+                                href={"/profile/schedule"}
+                                className='py-5 flex items-center gap-3 justify-center border-b border-white hover:bg-white/15 duration-300'
+                            >
+                                <PersonCircleIcon className="w-8 h-8" />
+                                <span>{context?.user?.name.split(" ")[0]}</span>
+                            </Link>
                             <Link
                                 onClick={handleopen}
                                 href={"/"}

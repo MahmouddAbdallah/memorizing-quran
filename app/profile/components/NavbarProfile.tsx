@@ -5,11 +5,11 @@ import useClickOutside from '@/app/hooks/useClickOutSide';
 import { useStore } from '@/lib/store';
 import axios from 'axios';
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 const NavbarProfile = () => {
     const context = useAppContext()
-    // const setUnread = useStore((state: any) => state.setUnread)
+    const setUnread = useStore((state: any) => state.setUnread)
     const unRead = useStore((state: any) => state.unRead)
 
     const [open, setOpen] = useState(false)
@@ -32,15 +32,15 @@ const NavbarProfile = () => {
         },
     ]
     const eleRef = useClickOutside(() => setOpen(false))
-    // useEffect(() => {
-    //     async () => {
-    //         const { data } = await axios.get('/api/messages/unread-msg')
-    //         console.log(data);
-
-    //         setUnread(data.count)
-    //     }
-    // }, [setUnread])
-    // console.log(unRead);
+    const fetchUnReadMsg = useCallback(
+        async () => {
+            const { data } = await axios.get('/api/messages/unread-msg')
+            setUnread(data.count)
+        }, [setUnread]
+    )
+    useEffect(() => {
+        fetchUnReadMsg()
+    }, [fetchUnReadMsg])
 
     return (
         <nav className="sticky top-0 z-10 lg:block">
@@ -76,8 +76,8 @@ const NavbarProfile = () => {
                         </Link>
                         <Link className='flex relative' href={'/profile/chat'}>
                             الرسائل
-                            {unRead ? <div className='absolute -top-1 -right-1 size-3 rounded-full bg-red-500'>
-                                {/* {unRead} */}
+                            {unRead ? <div className='absolute -top-1 -right-1 size-5 rounded-full bg-red-500 text-white flex justify-center items-center text-xs'>
+                                {unRead}
                             </div> : ""}
                         </Link>
                     </div>

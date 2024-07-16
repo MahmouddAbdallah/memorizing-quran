@@ -25,7 +25,7 @@ const Chat = ({ data, error, searchParams }: {
         if (data?.chats && !chats.length) {
             setChats(data.chats)
         }
-    }, [chats, data, setChats])
+    }, [chats?.length, data?.chats, setChats])
 
 
     const updateChats = useCallback(async () => {
@@ -45,10 +45,10 @@ const Chat = ({ data, error, searchParams }: {
     }, [updateChats, searchParams])
 
     return (
-        <div className="w-full pt-3 sm:w-[350px]">
-            <div className='w-full sm:w-[350px] min-h-[80svh] p-2 shadow-md rounded-xl'>
+        <div className="w-full lg:w-[350px] ">
+            <div className='w-full lg:w-[350px] h-[calc(100svh-88px)] lg:p-2 lg:h-[80svh] shadow-md rounded-xl overflow-auto px-3 pt-2'>
                 <SearchUser />
-                <div className='flex flex-col items-end py-2'>
+                <div className='flex flex-col items-end py-2 px-2 '>
                     {data &&
                         chats?.map((chat: any) => {
                             return (

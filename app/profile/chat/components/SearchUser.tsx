@@ -12,7 +12,7 @@ const SearchUser = () => {
             <div>
                 <input
                     type="text"
-                    className='w-full border rounded-md outline-none p-1 text-right'
+                    className='w-full border rounded-md outline-none px-2 py-3 text-right'
                     placeholder='...ابحث'
                 />
             </div>
